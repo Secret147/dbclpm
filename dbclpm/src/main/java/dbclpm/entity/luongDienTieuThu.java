@@ -37,6 +37,7 @@ public class luongDienTieuThu {
 	private bacDien bacDien;
 	
 	@ManyToOne
+	@JsonIgnore
 	private hoaDon hoaDon;
 	
 	

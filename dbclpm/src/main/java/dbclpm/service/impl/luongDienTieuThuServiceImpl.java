@@ -1,8 +1,11 @@
 package dbclpm.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dbclpm.entity.luongDienTieuThu;
 import dbclpm.entity.thang;
 import dbclpm.repository.luongDienTieuThuRepo;
 import dbclpm.repository.thangRepo;
@@ -29,6 +32,12 @@ public class luongDienTieuThuServiceImpl implements luongDienTieuThuService {
 		}
 		return 0L;
 		
+	}
+
+	@Override
+	public List<luongDienTieuThu> getLdttByThang(Long id) {
+		List<luongDienTieuThu> ldtts = ldttRepo.findByThangId(id);
+		return ldtts;
 	}
 
 }

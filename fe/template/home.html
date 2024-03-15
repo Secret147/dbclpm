@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dam bao chat luong phan mem</title>
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+<body>
+    <div class="home_container">
+        <div class="home_body">
+            <div class="home_body_front">
+                <p class="home_select_text">Chọn loại báo cáo</p>
+            </div>
+            <div class="home_body_back">
+                <div class="home_back_item">
+                    <div class="home_back_item_left">
+                        <p class="home_item_left_text">Báo cáo lượng điện tiêu thụ</p>
+                    </div>
+                    <div class="home_back_item_right" onclick="nextPage('baocao1')">
+                        <p class="home_item_left_text">Xem báo cáo</p>
+                    </div>
+                </div>
+                <div class="home_back_item">
+                    <div class="home_back_item_left">
+                        <p class="home_item_left_text">Báo cáo tổng doanh thu</p>
+                    </div>
+                    <div class="home_back_item_right" onclick="nextPage('baocao2')">
+                        <p class="home_item_left_text">Xem báo cáo</p>
+                    </div>
+                </div>
+                <div class="home_back_item">
+                    <div class="home_back_item_left">
+                        <p class="home_item_left_text">Báo cáo danh sách các hộ cá nhân sử dụng điện</p>
+                    </div>
+                    <div class="home_back_item_right">
+                        <p class="home_item_left_text" onclick="nextPage('baocao3')">Xem báo cáo</p>
+                    </div>
+                </div>
+                <div class="home_back_item">
+                    <div class="home_back_item_left">
+                        <p class="home_item_left_text">Báo cáo danh sách các hộ cá nhân chưa thanh toán hóa đơn</p>
+                    </div>
+                    <div class="home_back_item_right">
+                        <p class="home_item_left_text" onclick="nextPage('baocao4')">Xem báo cáo</p>
+                    </div>
+                </div>
+                <div class="home_back_item">
+                    <div class="home_back_item_left">
+                        <p class="home_item_left_text">Báo cáo thông tin tiêu thụ, sử dụng điện từng hộ cá nhân</p>
+                    </div>
+                    <div class="home_back_item_right">
+                        <p class="home_item_left_text" onclick="nextPage('baocao5')">Xem báo cáo</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+         
+    </div>
+    <script src="js/xuatbaocao.js"></script>
+</body>
+</html>

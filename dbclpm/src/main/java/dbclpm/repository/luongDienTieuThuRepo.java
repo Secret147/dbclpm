@@ -25,5 +25,6 @@ public interface luongDienTieuThuRepo extends JpaRepository<luongDienTieuThu, Lo
     
     List<luongDienTieuThu> findByKhachHangId(Long id);
 	
+    List<luongDienTieuThu> findByThangId(Long id);
 	
 }

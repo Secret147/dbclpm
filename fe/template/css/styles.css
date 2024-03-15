@@ -1,0 +1,31 @@
+@charset "ISO-8859-1";
+html {
+    font-size: 62.5%;
+}
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+a {
+    color: black;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+}
+:root {
+    --primary-color: orange;
+    --secondary-color: green;
+    --border: gray;
+    --border-radius: 4px;
+    --font-time: 24px;
+    --hover-color:rgb(192, 189, 189);
+    --time-color: transparent linear-gradient(180deg, #d0d0cc 0%, rgb(7, 7, 7) 100%) 0% 0% no-repeat padding-box;
+    --background-form: transparent linear-gradient(180deg, #000000 0%, rgb(208, 208, 208) 100%) 0% 0% no-repeat
+        padding-box;
+}

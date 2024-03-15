@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/xuatbaocao.css" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <title>Xuatbaocao</title>
+</head>
+<body>
+    <div class="baocao_container">
+        <div class="baocao_main">
+            <div class="baocao_main_front">
+                <div class="baocao_main_front_left">
+                    <p class="baocao_text"></p>
+                </div>
+                <div class="baocao_main_front_right">
+                    <div class="baocao_main_front_right_option">
+                        <select name="Hộ cá nhân" id="khachhang">
+                            <option value="2023">Hộ cá nhân</option>
+                            
+                            
+                        </select>
+                        <select name="Năm" id="nam" title="Chọn năm">
+                          
+                        </select>
+                        <select name="Tháng" id="thang">
+                           
+                            
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="baocao_main_back">
+                
+            </div>
+            <p class="sum_text"></p>
+            <div class="baocao_button_box">
+
+                <div class="baocao_button">
+                    <p class="baocao_button_text" onclick="exportSumLdtt()">Xuất báo cáo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/xuatbaocao.js"></script>
+</body>
+</html>

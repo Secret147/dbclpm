@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import dbclpm.entity.luongDienTieuThu;
 import dbclpm.entity.thang;
 import dbclpm.repository.khachHangRepo;
 import dbclpm.repository.luongDienTieuThuRepo;
+import dbclpm.service.khachHangService;
+import dbclpm.service.luongDienTieuThuService;
 import dbclpm.service.namService;
 
 import java.io.ByteArrayOutputStream;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class ExcelController {
 	@Autowired
@@ -34,7 +38,13 @@ public class ExcelController {
 	private khachHangRepo khachHangRe;
 	
 	@Autowired
+	private khachHangService khachhangSe;
+	
+	@Autowired
 	private luongDienTieuThuRepo ldttRe;
+	
+	@Autowired
+	private luongDienTieuThuService ldttSe;
 
     @GetMapping("/thang/export-excel")
     public ResponseEntity<byte[]> exportExcel() throws IOException {
@@ -77,6 +87,65 @@ public class ExcelController {
         headers.setContentDispositionFormData("attachment", "data.xlsx");
         return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
     }
+    
+    @GetMapping("ldtt/export/{id}")
+     public ResponseEntity<byte[]> exportLdttExcel(@PathVariable Long id) throws IOException {
+        
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Data");
+        
+        List<luongDienTieuThu> khachHangs = ldttSe.getLdttByThang(id);
+        String[] title ={"id","Chi so cu","Chi so moi","Thang", "Bac","Trang thai"};
+        int cellIndex = 0;
+        Row rowTitle = sheet.createRow(0);
+        Cell cellTitle = rowTitle.createCell(2);
+        cellTitle.setCellValue("Báo cáo sử dụng điện tháng" + khachHangs.get(0).getThang().getName());
+        Row rowFirst = sheet.createRow(1);
+        for(String x : title) {     	
+        	Cell cell = rowFirst.createCell(cellIndex);
+        	cell.setCellValue(x);
+        	cellIndex++;
+        	
+        }
+        int rowIndex = 2;
+        for(luongDienTieuThu x : khachHangs) {
+        	Row row = sheet.createRow(rowIndex++);
+        	Cell cell = row.createCell(0);
+    		cell.setCellValue(x.getId());
+    		
+    		Cell cell1 = row.createCell(1);
+    		cell1.setCellValue(x.getCsc());
+    		
+    		Cell cell2 = row.createCell(2);
+    		cell2.setCellValue(x.getCsm()); 
+    		
+    		Cell cell3 = row.createCell(3);
+    		cell3.setCellValue(x.getThang().getName());
+    		
+    		Cell cell4 = row.createCell(4);
+    		cell4.setCellValue(x.getBacDien().getName());
+    		
+    		Cell cell5 = row.createCell(5);
+    		cell5.setCellValue(x.getState() == "0" ? "Chua thanh toan" : " Da thanh toan");
+        }
+        Row rowSum = sheet.createRow(rowIndex+1);
+        Cell cellSum = rowSum.createCell(9);
+        Cell cellTitleSum = rowSum.createCell(8);
+        Long sum = ldttSe.getLuongdienTieuthuTheoThang(id);
+        cellTitleSum.setCellValue("Tổng lượng điện tiêu thụ(Kwh)");
+        cellSum.setCellValue(sum);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.setContentDispositionFormData("attachment", "bcldtt.xlsx");
+        return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
+    }
+    
+    
     @GetMapping("/khachhang/export")
     public ResponseEntity<byte[]> exportKhachHangExcel() throws IOException {
        
@@ -134,15 +203,9 @@ public class ExcelController {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Data");
         
-        List<Object[]> ob = ldttRe.getKhachHangctt();
         
-        List<khachHang> khachHangs = new ArrayList<>();
-        for(Object[] x :ob) {
-        	khachHang kh = new khachHang(x);
-        	if(!khachHangs.contains(kh)) {
-        		khachHangs.add(kh);
-        	}       	
-        }
+        
+        List<khachHang> khachHangs = khachhangSe.getListKhPayment();
         
         String[] title ={"id","name","email","address", "numberphone","note"};
         int cellIndex = 0;
@@ -184,7 +247,7 @@ public class ExcelController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
-        headers.setContentDispositionFormData("attachment", "danhsach.xlsx");
+        headers.setContentDispositionFormData("attachment", "payment.xlsx");
         return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
     }
     

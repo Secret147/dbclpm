@@ -3,6 +3,8 @@ package dbclpm.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,7 @@ public class bacDien {
 	private String description;
 	
 	@OneToMany(mappedBy = "bacDien")
+	@JsonIgnore
 	private List<luongDienTieuThu> list = new ArrayList<>();
 	
 

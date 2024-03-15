@@ -26,8 +26,12 @@ public class luongDienTieuThuAPI {
 	
 	
 	@GetMapping("/sum/thang/{thang_id}")
-	public ResponseEntity<?> getLdttByThang(@PathVariable Long thang_id){		
+	public ResponseEntity<?> getSumLdttByThang(@PathVariable Long thang_id){		
 		return ResponseEntity.ok(ldttSe.getLuongdienTieuthuTheoThang(thang_id));		
+	}
+	@GetMapping("thang/{id}")
+	public ResponseEntity<?> getLdttByThang(@PathVariable Long id){
+		return ResponseEntity.ok(ldttSe.getLdttByThang(id));
 	}
 
 }

@@ -34,5 +34,10 @@ public class namAPI {
 	public ResponseEntity<?> getNam(@PathVariable Long namid){
 		return ResponseEntity.ok(namRe.findById(namid));
 	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<?> getNamAll(){
+		return ResponseEntity.ok(namSe.getListNam());
+	}
 
 }
