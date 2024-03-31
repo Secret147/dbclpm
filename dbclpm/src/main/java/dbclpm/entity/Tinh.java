@@ -10,24 +10,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
-@Data
 @Entity
-public class KhuVuc {
+@Data
+public class Tinh {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String name;
 	
-	private String address;
-	
 	private String description;
 	
-	@OneToMany(mappedBy = "khuVuc")
-	private List<KhachHang> list = new ArrayList<>();
-
-	public KhuVuc() {
-		// TODO Auto-generated constructor stub
-	}
-
+	@OneToMany(mappedBy = "tinh")
+	private List<Huyen> list = new ArrayList<>();
+  
 }

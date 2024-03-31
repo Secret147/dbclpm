@@ -34,12 +34,15 @@ public class KhachHang {
 	@JsonIgnore
 	private List<LuongDienTieuThu> list = new ArrayList<>();
 
-	@ManyToOne
-	@JsonIgnore
-	private KhuVuc khuVuc;
+	
 
 	@OneToMany(mappedBy = "khachHang")
+	@JsonIgnore
 	private List<HoaDon> listHoaDon = new ArrayList<>();
+	
+	@ManyToOne
+	@JsonIgnore
+	private Xa xa;
 
 	public KhachHang() {
 		// TODO Auto-generated constructor stub
@@ -49,9 +52,9 @@ public class KhachHang {
 		this.id = (Long) obj[0];
 		this.address = (String) obj[2];
 		this.email = (String) obj[3];
-		this.note = (String) obj[4];
-		this.numberPhone = (String) obj[5];
-		this.name = (String) obj[6];
+		this.name = (String) obj[4];
+		this.note = (String) obj[5];
+		this.numberPhone = (String) obj[6];
 	}
 
 }

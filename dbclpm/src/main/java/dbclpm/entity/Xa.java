@@ -3,40 +3,29 @@ package dbclpm.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
-@Data
 @Entity
-public class BacDien {
+@Data
+public class Xa {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long price;
-	
 	private String name;
-	
-	private int startValue;
-	
-	private int endValue;
 	
 	private String description;
 	
-	
-	@OneToMany(mappedBy = "bacDien")
-	@JsonIgnore
-	private List<TieuThuTheoBac> list = new ArrayList<>();
-	
-
-	public BacDien() {
-		// TODO Auto-generated constructor stub
-	}
-
+	@OneToMany(mappedBy = "xa")
+	private List<KhachHang> list = new ArrayList<>();
+    
+	@ManyToOne
+	private Huyen huyen;
 }

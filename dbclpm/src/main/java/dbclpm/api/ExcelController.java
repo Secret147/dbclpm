@@ -94,11 +94,11 @@ public class ExcelController {
         Sheet sheet = workbook.createSheet("Data");
         
         List<LuongDienTieuThu> khachHangs = ldttSe.getLdttByThang(id);
-        String[] title ={"id","Chi so cu","Chi so moi","Thang", "Bac","Trang thai"};
+        String[] title ={"id","Tên khách hàng","Chỉ số cũ","Chỉ số mới","Tháng","Trạng thái"};
         int cellIndex = 0;
         Row rowTitle = sheet.createRow(0);
         Cell cellTitle = rowTitle.createCell(2);
-        cellTitle.setCellValue("Báo cáo sử dụng điện tháng" + khachHangs.get(0).getThang().getName());
+        cellTitle.setCellValue("Báo cáo sử dụng điện tháng " + khachHangs.get(0).getThang().getName());
         Row rowFirst = sheet.createRow(1);
         for(String x : title) {     	
         	Cell cell = rowFirst.createCell(cellIndex);
@@ -113,16 +113,18 @@ public class ExcelController {
     		cell.setCellValue(x.getId());
     		
     		Cell cell1 = row.createCell(1);
-    		cell1.setCellValue(x.getCsc());
+    		cell1.setCellValue(x.getKhachHang().getName());
     		
     		Cell cell2 = row.createCell(2);
-    		cell2.setCellValue(x.getCsm()); 
+    		cell2.setCellValue(x.getCsc());
     		
     		Cell cell3 = row.createCell(3);
-    		cell3.setCellValue(x.getThang().getName());
+    		cell3.setCellValue(x.getCsm()); 
     		
     		Cell cell4 = row.createCell(4);
-    		cell4.setCellValue(x.getBacDien().getName());
+    		cell4.setCellValue(x.getThang().getName());
+    		
+
     		
     		Cell cell5 = row.createCell(5);
     		cell5.setCellValue(x.getState() == "0" ? "Chua thanh toan" : " Da thanh toan");
@@ -152,7 +154,7 @@ public class ExcelController {
         Sheet sheet = workbook.createSheet("Data");
         
         List<KhachHang> khachHangs = khachHangRe.findAll();
-        String[] title ={"id","name","email","address", "numberphone","note"};
+        String[] title ={"id","Tên khách hàng","Email","Địa chỉ", "Số điện thoại","Ghi chú"};
         int cellIndex = 0;
         Row rowTitle = sheet.createRow(0);
         Cell cellTitle = rowTitle.createCell(2);
@@ -204,9 +206,9 @@ public class ExcelController {
         
         
         
-        List<KhachHang> khachHangs = khachhangSe.getListKhPayment();
+        List<LuongDienTieuThu> khachHangs = khachhangSe.getListKhPayment();
         
-        String[] title ={"id","name","email","address", "numberphone","note"};
+        String[] title ={"id","Tên khách hàng","Email","Địa chỉ", "Số điện thoại","Ghi chú","Tháng"};
         int cellIndex = 0;
         Row rowTitle = sheet.createRow(0);
         Cell cellTitle = rowTitle.createCell(2);
@@ -219,25 +221,28 @@ public class ExcelController {
         	
         }
         int rowIndex = 2;
-        for(KhachHang x : khachHangs) {
+        for(LuongDienTieuThu x : khachHangs) {
         	Row row = sheet.createRow(rowIndex++);
         	Cell cell = row.createCell(0);
     		cell.setCellValue(x.getId());
     		
     		Cell cell1 = row.createCell(1);
-    		cell1.setCellValue(x.getName());
+    		cell1.setCellValue(x.getKhachHang().getName());
     		
     		Cell cell2 = row.createCell(2);
-    		cell2.setCellValue(x.getEmail()); 
+    		cell2.setCellValue(x.getKhachHang().getEmail()); 
     		
     		Cell cell3 = row.createCell(3);
-    		cell3.setCellValue(x.getAddress());
+    		cell3.setCellValue(x.getKhachHang().getAddress());
     		
     		Cell cell4 = row.createCell(4);
-    		cell4.setCellValue(x.getNumberPhone());
+    		cell4.setCellValue(x.getKhachHang().getNumberPhone());
     		
     		Cell cell5 = row.createCell(5);
-    		cell5.setCellValue(x.getNote());
+    		cell5.setCellValue(x.getKhachHang().getNote());
+    		
+    		Cell cell6 = row.createCell(6);
+    		cell6.setCellValue(x.getThang().getName());
         }
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -261,11 +266,11 @@ public class ExcelController {
         List<LuongDienTieuThu> ldtts = ldttRe.findByKhachHangId(id);
        
         
-        String[] title ={"id","Chi so cu","Chi so moi","Thang", "Bac","Trang thai"};
+        String[] title ={"id","Chỉ số cũ","Chỉ số mới","Tháng","Trạng thái"};
         int cellIndex = 0;
         Row rowTitle = sheet.createRow(0);
         Cell cellTitle = rowTitle.createCell(2);
-        cellTitle.setCellValue("Thông tin sử dụng điện của khách hàng");
+        cellTitle.setCellValue("Thông tin sử dụng điện của khách hàng " + ldtts.get(0).getKhachHang().getName());
         Row rowFirst = sheet.createRow(1);
         for(String x : title) {     	
         	Cell cell = rowFirst.createCell(cellIndex);
@@ -288,11 +293,9 @@ public class ExcelController {
     		Cell cell3 = row.createCell(3);
     		cell3.setCellValue(x.getThang().getName());
     		
-    		Cell cell4 = row.createCell(4);
-    		cell4.setCellValue(x.getBacDien().getName());
     		
-    		Cell cell5 = row.createCell(5);
-    		cell5.setCellValue(x.getState() == "0" ? "Chua thanh toan" : " Da thanh toan");
+    		Cell cell4 = row.createCell(4);
+    		cell4.setCellValue(x.getState() == "0" ? "Chua thanh toan" : " Da thanh toan");
         }
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

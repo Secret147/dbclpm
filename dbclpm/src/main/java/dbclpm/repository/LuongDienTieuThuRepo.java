@@ -15,11 +15,9 @@ public interface LuongDienTieuThuRepo extends JpaRepository<LuongDienTieuThu, Lo
 			+ "WHERE thang_id = ?;", nativeQuery = true)
     Long getLuongdienTieuThuByThang(Long thang_id);
 	
-	@Query(value = "SELECT kh.*\r\n"
-			+ "FROM khach_hang kh\r\n"
-			+ "INNER JOIN luong_dien_tieu_thu ldtt ON kh.id = ldtt.khach_hang_id\r\n"
-			+ "WHERE ldtt.state = 0;", nativeQuery = true)
-    List<Object[]> getKhachHangctt();
+	@Query(value = "SELECT * FROM dbclpm.luong_dien_tieu_thu \r\n"
+			+ "where state = 0;", nativeQuery = true)
+    List<LuongDienTieuThu> getKhachHangctt();
     
     List<LuongDienTieuThu> findByKhachHangId(Long id);
 	
