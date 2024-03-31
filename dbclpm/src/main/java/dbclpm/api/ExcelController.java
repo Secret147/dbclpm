@@ -13,18 +13,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dbclpm.entity.khachHang;
-import dbclpm.entity.luongDienTieuThu;
-import dbclpm.entity.thang;
-import dbclpm.repository.khachHangRepo;
-import dbclpm.repository.luongDienTieuThuRepo;
-import dbclpm.service.khachHangService;
-import dbclpm.service.luongDienTieuThuService;
-import dbclpm.service.namService;
+import dbclpm.entity.KhachHang;
+import dbclpm.entity.LuongDienTieuThu;
+import dbclpm.entity.Thang;
+import dbclpm.repository.KhachHangRepo;
+import dbclpm.repository.LuongDienTieuThuRepo;
+import dbclpm.service.KhachHangService;
+import dbclpm.service.LuongDienTieuThuService;
+import dbclpm.service.NamService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,19 +31,19 @@ import java.util.List;
 @RequestMapping("/api")
 public class ExcelController {
 	@Autowired
-	private namService namSe;
+	private NamService namSe;
 	
 	@Autowired
-	private khachHangRepo khachHangRe;
+	private KhachHangRepo khachHangRe;
 	
 	@Autowired
-	private khachHangService khachhangSe;
+	private KhachHangService khachhangSe;
 	
 	@Autowired
-	private luongDienTieuThuRepo ldttRe;
+	private LuongDienTieuThuRepo ldttRe;
 	
 	@Autowired
-	private luongDienTieuThuService ldttSe;
+	private LuongDienTieuThuService ldttSe;
 
     @GetMapping("/thang/export-excel")
     public ResponseEntity<byte[]> exportExcel() throws IOException {
@@ -52,7 +51,7 @@ public class ExcelController {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Data");
 
-        List<thang> thangs = namSe.getListThangByNam(1L);
+        List<Thang> thangs = namSe.getListThangByNam(1L);
         Row row0 = sheet.createRow(0);
         Cell cellRow0 = row0.createCell(0);
         cellRow0.setCellValue("id");
@@ -64,7 +63,7 @@ public class ExcelController {
         cellRow2.setCellValue("name");
         
         int rowIndex = 1;
-        for(thang x : thangs) {
+        for(Thang x : thangs) {
         	Row row = sheet.createRow(rowIndex++);
         	Cell cell = row.createCell(0);
     		cell.setCellValue(x.getName());
@@ -94,7 +93,7 @@ public class ExcelController {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Data");
         
-        List<luongDienTieuThu> khachHangs = ldttSe.getLdttByThang(id);
+        List<LuongDienTieuThu> khachHangs = ldttSe.getLdttByThang(id);
         String[] title ={"id","Chi so cu","Chi so moi","Thang", "Bac","Trang thai"};
         int cellIndex = 0;
         Row rowTitle = sheet.createRow(0);
@@ -108,7 +107,7 @@ public class ExcelController {
         	
         }
         int rowIndex = 2;
-        for(luongDienTieuThu x : khachHangs) {
+        for(LuongDienTieuThu x : khachHangs) {
         	Row row = sheet.createRow(rowIndex++);
         	Cell cell = row.createCell(0);
     		cell.setCellValue(x.getId());
@@ -152,7 +151,7 @@ public class ExcelController {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Data");
         
-        List<khachHang> khachHangs = khachHangRe.findAll();
+        List<KhachHang> khachHangs = khachHangRe.findAll();
         String[] title ={"id","name","email","address", "numberphone","note"};
         int cellIndex = 0;
         Row rowTitle = sheet.createRow(0);
@@ -166,7 +165,7 @@ public class ExcelController {
         	
         }
         int rowIndex = 2;
-        for(khachHang x : khachHangs) {
+        for(KhachHang x : khachHangs) {
         	Row row = sheet.createRow(rowIndex++);
         	Cell cell = row.createCell(0);
     		cell.setCellValue(x.getId());
@@ -205,7 +204,7 @@ public class ExcelController {
         
         
         
-        List<khachHang> khachHangs = khachhangSe.getListKhPayment();
+        List<KhachHang> khachHangs = khachhangSe.getListKhPayment();
         
         String[] title ={"id","name","email","address", "numberphone","note"};
         int cellIndex = 0;
@@ -220,7 +219,7 @@ public class ExcelController {
         	
         }
         int rowIndex = 2;
-        for(khachHang x : khachHangs) {
+        for(KhachHang x : khachHangs) {
         	Row row = sheet.createRow(rowIndex++);
         	Cell cell = row.createCell(0);
     		cell.setCellValue(x.getId());
@@ -259,7 +258,7 @@ public class ExcelController {
         
         
         
-        List<luongDienTieuThu> ldtts = ldttRe.findByKhachHangId(id);
+        List<LuongDienTieuThu> ldtts = ldttRe.findByKhachHangId(id);
        
         
         String[] title ={"id","Chi so cu","Chi so moi","Thang", "Bac","Trang thai"};
@@ -275,7 +274,7 @@ public class ExcelController {
         	
         }
         int rowIndex = 2;
-        for(luongDienTieuThu x : ldtts) {
+        for(LuongDienTieuThu x : ldtts) {
         	Row row = sheet.createRow(rowIndex++);
         	Cell cell = row.createCell(0);
     		cell.setCellValue(x.getId());
