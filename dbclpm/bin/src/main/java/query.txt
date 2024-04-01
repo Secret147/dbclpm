@@ -1,3 +1,63 @@
-INSERT INTO `dbclpm`.`luong_dien_tieu_thu` (`csc`, `csm`, `thang_id`) VALUES ('12', '45', '1');
-INSERT INTO `dbclpm`.`luong_dien_tieu_thu` (`csc`, `csm`, `thang_id`) VALUES ('45', '67', '2');
-INSERT INTO `dbclpm`.`luong_dien_tieu_thu` (`csc`, `csm`, `thang_id`) VALUES ('67', '88', '3');
+INSERT INTO `dbclpm`.`nam` (`name`) VALUES ('2023');
+INSERT INTO `dbclpm`.`nam` (`name`) VALUES ('2024');
+
+--------------------------------------------------------------------------
+
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('1', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('2', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('3', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('4', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('5', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('6', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('7', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('8', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('9', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('10', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('11', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('12', '1');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('1', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('2', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('3', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('4', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('5', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('6', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('7', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('8', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('9', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('10', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('11', '2');
+INSERT INTO `dbclpm`.`thang` (`name`, `nam_id`) VALUES ('12', '2');
+
+-------------------------------------------------------------------------------
+
+INSERT INTO `dbclpm`.`huyen` (`tinh_id`, `name`) VALUES ('1', 'Giao Thủy');
+INSERT INTO `dbclpm`.`huyen` (`tinh_id`, `name`) VALUES ('1', 'Xuân Trường');
+INSERT INTO `dbclpm`.`huyen` (`tinh_id`, `name`) VALUES ('1', 'Mỹ Lộc');
+INSERT INTO `dbclpm`.`huyen` (`tinh_id`, `name`) VALUES ('2', 'Đống Đa');
+INSERT INTO `dbclpm`.`huyen` (`tinh_id`, `name`) VALUES ('2', 'Cầu Giấy');
+INSERT INTO `dbclpm`.`huyen` (`tinh_id`, `name`) VALUES ('2', 'Hà Đông');
+
+------------------------------------------------------------------------------
+
+
+INSERT INTO `dbclpm`.`xa` (`huyen_id`, `name`) VALUES ('2', 'Xuân Tân');
+INSERT INTO `dbclpm`.`xa` (`huyen_id`, `name`) VALUES ('2', 'Xuân Đài ');
+INSERT INTO `dbclpm`.`xa` (`huyen_id`, `name`) VALUES ('2', 'Xuân Phú');
+
+-------------------------------------------------------------------------------
+
+INSERT INTO `dbclpm`.`bac_dien` (`end_value`, `start_value`, `price`, `name`) VALUES ('0', '50', '2500', 'Bậc 1');
+INSERT INTO `dbclpm`.`bac_dien` (`end_value`, `start_value`, `price`, `name`) VALUES ('51', '100', '3000', 'Bậc 2');
+INSERT INTO `dbclpm`.`bac_dien` (`end_value`, `start_value`, `price`, `name`) VALUES ('101', '150', '3500', 'Bậc 3');
+
+---------------------------------------------------------------------------------------------------------
+
+INSERT INTO `dbclpm`.`khach_hang` (`xa_id`, `email`, `name`, `note`, `number_phone`) VALUES ('1', 'jshfj@gmail.com', 'chung', 'note', '12345678990');
+INSERT INTO `dbclpm`.`khach_hang` (`xa_id`, `email`, `name`, `note`, `number_phone`) VALUES ('2', 'ágjfbabf@gmail.com', 'dat', 'note2', '53567346346');
+INSERT INTO `dbclpm`.`khach_hang` (`xa_id`, `email`, `name`, `note`, `number_phone`) VALUES ('3', 'kabnnkbn@gmail.com', 'binh', 'note3', '23463463463');
+
+---------------------------------------------------------------------------------------------------------
+
+INSERT INTO `dbclpm`.`luong_dien_tieu_thu` (`csc`, `csm`, `khach_hang_id`, `thang_id`, `state`) VALUES ('34', '156', '1', '1', '0');
+INSERT INTO `dbclpm`.`luong_dien_tieu_thu` (`csc`, `csm`, `khach_hang_id`, `thang_id`, `state`) VALUES ('45', '245', '2', '3', '1');
+INSERT INTO `dbclpm`.`luong_dien_tieu_thu` (`csc`, `csm`, `khach_hang_id`, `thang_id`, `state`) VALUES ('53', '223', '3', '4', '0');
