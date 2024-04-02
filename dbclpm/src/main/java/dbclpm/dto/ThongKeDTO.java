@@ -19,8 +19,8 @@ public class ThongKeDTO {
 	private final long newValue;
 	private final List<TieuThuTheoBac> dsTieuThuTheoBac;
 	private final long tienDien;
-	private final TrangThai trangThai;
-	
+	private final int trangThai;
+
 	@Autowired
 	private TienDienUltility tienDienUltility;
 
@@ -35,20 +35,15 @@ public class ThongKeDTO {
 		// Nếu xem thống kê tháng hiện tại (=> chưa có hóa đơn)
 		if (hoaDon == null) {
 			tienDien = tienDienUltility.tinhTienDien(oldValue, newValue);
-			this.trangThai = TrangThai.CHUADENHAN;
+			this.trangThai = -1;
 		} else {
 			// Nếu có hóa đơn rồi
 			tienDien = hoaDon.getTotal();
-			if (luongDienTieuThu.getState().equals("CHUADONG")) {
-				this.trangThai = TrangThai.CHUADONG;
+			if (luongDienTieuThu.getState().equals("0")) {
+				this.trangThai = 0;
 			} else {
-				this.trangThai = TrangThai.DADONG;
+				this.trangThai = 1;
 			}
 		}
-
-	}
-
-	public enum TrangThai {
-		DADONG, CHUADENHAN, CHUADONG
 	}
 }

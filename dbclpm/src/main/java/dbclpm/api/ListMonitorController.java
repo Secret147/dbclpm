@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +39,7 @@ public class ListMonitorController {
 		this.namRepo = namRepo;
 	}
 
-	@GetMapping("api/list")
+	@PostMapping("api/list")
 	public ResponseEntity<List<ThongKeDTO>> getThongKe(@RequestBody HashMap<String, Integer> requestParams) {
 		/*
 		 * TODO: - Xử lý case tỉnh ko có huyện, huyện ko có xã...

@@ -24,7 +24,7 @@ public class HuyenAPI {
 	 * @param huyenID
 	 * @return
 	 */
-	@GetMapping("/api/huyen/{xaID}/xa")
+	@GetMapping("/api/huyen/{huyenId}/xa")
 	public ResponseEntity<List<Xa>> getDsXaByHuyenId(@PathParam("huyenId") long huyenID) {
 		/* TODO
 		 * Xử lý case: một vài huyện có thể không có xã
