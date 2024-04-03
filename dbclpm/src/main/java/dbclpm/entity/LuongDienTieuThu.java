@@ -19,32 +19,24 @@ public class LuongDienTieuThu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private Long csm;
-	
+
 	private Long csc;
-	
+
 	private String state;
 
-	public LuongDienTieuThu() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	@ManyToOne
 	private KhachHang khachHang;
-	
+
 	@ManyToOne
 	private Thang thang;
-	
-	
-	
+
 	@ManyToOne
 	@JsonIgnore
 	private HoaDon hoaDon;
-	
-	@OneToMany(mappedBy = "ldtt")
-	private List<TieuThuTheoBac> list = new ArrayList<>();
-	
-	
+
+	@OneToMany
+	private List<TieuThuTheoBac> dsTieuThuTheoBac = new ArrayList<>();
 
 }

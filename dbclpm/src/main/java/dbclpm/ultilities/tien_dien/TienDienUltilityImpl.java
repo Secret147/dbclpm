@@ -7,13 +7,12 @@ import dbclpm.entity.BacDien;
 import dbclpm.repository.BacDienRepo;
 
 public class TienDienUltilityImpl implements TienDienUltility {
-	
+
 	private final BacDienRepo bacDienRepo;
-	
+
 	public TienDienUltilityImpl(BacDienRepo bacDienRepo) {
 		this.bacDienRepo = bacDienRepo;
 	}
-	
 
 	@Override
 	public long tinhTienDien(long oldValue, long newValue) {

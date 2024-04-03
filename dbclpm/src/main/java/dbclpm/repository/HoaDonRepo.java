@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import dbclpm.entity.HoaDon;
 
 public interface HoaDonRepo extends JpaRepository<HoaDon, Long> {
-	List<HoaDon> findByKhachHangXaID(long xaId);
+	List<HoaDon> findByKhachHangXaId(long xaId);
 
-	List<HoaDon> findByKhachHangXaHuyenID(long huyenId);
+	List<HoaDon> findByKhachHangXaHuyenId(long huyenId);
 
-	List<HoaDon> findByKhachHangXaHuyenTinhID(long tinhId);
+	List<HoaDon> findByKhachHangXaHuyenTinhId(long tinhId);
 }

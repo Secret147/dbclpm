@@ -2,8 +2,6 @@ package dbclpm.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,28 +18,19 @@ public class TieuThuTheoBac {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Date created_at;
-	
-	private int value;
-	
-	private Long price;
-	
-	@PrePersist
-    protected void onCreate() {
-        created_at = new Date();
-    }
-	
-	@ManyToOne 
-	private BacDien bacDien;
-	
-	@ManyToOne 
-	@JsonIgnore
-	private LuongDienTieuThu ldtt;
-	
-	
-	
-	
 
+	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private Date createdAt;
+
+	private int value;
+
+	private Long price;
+
+	@ManyToOne
+	private BacDien bacDien;
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
 }

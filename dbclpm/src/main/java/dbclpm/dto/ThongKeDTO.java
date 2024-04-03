@@ -30,7 +30,7 @@ public class ThongKeDTO {
 		this.khachHangDiaChi = luongDienTieuThu.getKhachHang().getAddress();
 		this.oldValue = luongDienTieuThu.getCsc();
 		this.newValue = luongDienTieuThu.getCsm();
-		this.dsTieuThuTheoBac = luongDienTieuThu.getList();
+		this.dsTieuThuTheoBac = luongDienTieuThu.getDsTieuThuTheoBac();
 
 		// Nếu xem thống kê tháng hiện tại (=> chưa có hóa đơn)
 		if (hoaDon == null) {

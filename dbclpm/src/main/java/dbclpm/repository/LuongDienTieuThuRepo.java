@@ -17,11 +17,11 @@ public interface LuongDienTieuThuRepo extends JpaRepository<LuongDienTieuThu, Lo
 
 	List<LuongDienTieuThu> findByKhachHangId(Long id);
 
-	List<LuongDienTieuThu> findByKhachHangXaID(long xaId);
+	List<LuongDienTieuThu> findByKhachHangXaId(long xaId);
 
-	List<LuongDienTieuThu> findByKhachHangXaHuyenID(long huyenId);
+	List<LuongDienTieuThu> findByKhachHangXaHuyenId(long huyenId);
 
-	List<LuongDienTieuThu> findByKhachHangXaHuyenTinhID(long tinhId);
+	List<LuongDienTieuThu> findByKhachHangXaHuyenTinhId(long tinhId);
 
 	List<LuongDienTieuThu> findByThangId(Long id);
 

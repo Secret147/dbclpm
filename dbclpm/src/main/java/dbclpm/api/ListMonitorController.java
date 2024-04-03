@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,7 +53,11 @@ public class ListMonitorController {
 		Thang thang = thangRepo.findById(thangId).orElse(null);
 		Nam nam = namRepo.findById(namId).orElse(null);
 		LocalDate currentTime = LocalDate.now();
-
+		
+		if (thang == null || nam == null) {
+			return null;
+		}
+			
 		List<ThongKeDTO> dsThongKe = new ArrayList<>();
 
 		// Nếu lấy danh sách thống kê trong quá khứ => đã có hóa đơn
@@ -62,12 +65,12 @@ public class ListMonitorController {
 				&& currentTime.getYear() != Integer.valueOf(nam.getName())) {
 			List<HoaDon> dsHoaDon = null;
 			if (xaId != -1) {
-				dsHoaDon = hoaDonRepo.findByKhachHangXaID(xaId);
+				dsHoaDon = hoaDonRepo.findByKhachHangXaId(xaId);
 			} else {
 				if (huyenId != -1) {
-					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenID(huyenId);
+					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenId(huyenId);
 				} else {
-					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenTinhID(tinhId);
+					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenTinhId(tinhId);
 				}
 			}
 			for (HoaDon hoaDon : dsHoaDon) {
@@ -76,12 +79,12 @@ public class ListMonitorController {
 		} else {
 			List<LuongDienTieuThu> dsLuongDienTieuThu = null;
 			if (xaId != -1) {
-				dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaID(xaId);
+				dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaId(xaId);
 			} else {
 				if (huyenId != -1) {
-					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenID(huyenId);
+					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenId(huyenId);
 				} else {
-					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenTinhID(tinhId);
+					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenTinhId(tinhId);
 				}
 			}
 			for (LuongDienTieuThu luongDienTieuThu : dsLuongDienTieuThu) {

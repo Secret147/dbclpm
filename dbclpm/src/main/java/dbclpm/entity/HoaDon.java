@@ -13,8 +13,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class HoaDon {
 	@Id
@@ -24,7 +26,7 @@ public class HoaDon {
 	private Long total;
 
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Date created_at;
+	private Date createdAt;
 
 	private String description;
 
@@ -42,11 +44,7 @@ public class HoaDon {
 
 	@PrePersist
 	protected void onCreate() {
-		created_at = new Date();
-	}
-
-	public HoaDon() {
-		// TODO Auto-generated constructor stub
+		createdAt = new Date();
 	}
 
 }
