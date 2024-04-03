@@ -88,11 +88,11 @@ function showTableUser(users){
     <table> 
     <tr>
       <th>ID</th>
-      <th>Name</th>
+      <th>Tên khách hàng</th>
       <th>Email</th>
-      <th>Address</th>
-      <th>Numberphone</th>
-      <th>Note</th>
+      <th>Địa chỉ</th>
+      <th>Số điện thoại</th>   
+      <th>Ghi chú</th>
     </tr>
     <tbody class="table_user">
     </tbody>
@@ -106,8 +106,9 @@ function showTableUser(users){
           <td>${user.name}</td>
           <td>${user.email}</td>
           <td>${user.address}</td>
-          <td>${user.numberPhone}</td>
+          <td>${user.numberPhone}</td>    
           <td>${user.note}</td>
+
         </tr>
         
       `;                     
@@ -116,6 +117,48 @@ function showTableUser(users){
     listTable.innerHTML = html.join('');
     
 }
+
+function showTableUserPayment(users){
+  const listUser = document.querySelector(".baocao_main_back");
+ 
+  const html1 = `
+  <table> 
+  <tr>
+    <th>ID</th>
+    <th>Tên khách hàng</th>
+    <th>Email</th>
+    <th>Địa chỉ</th>
+    <th>Số điện thoại</th>   
+    <th>Ghi chú</th>
+    <th>Tháng</th>
+
+  </tr>
+  <tbody class="table_user">
+  </tbody>
+  </table>`
+  listUser.innerHTML = html1;
+  const listTable = document.querySelector(".table_user");
+  const html = users.map(function(user) {
+      return `
+      <tr>
+        <td>${user.khachHang.id}</td>
+        <td>${user.khachHang.name}</td>
+        <td>${user.khachHang.email}</td>
+        <td>${user.khachHang.address}</td>
+        <td>${user.khachHang.numberPhone}</td>    
+        <td>${user.khachHang.note}</td>
+        <td>${user.thang.name}</td>
+
+      </tr>
+      
+    `;                     
+  });
+ 
+  listTable.innerHTML = html.join('');
+  
+}
+
+
 function showTableUserDetail(users){
     const listUser = document.querySelector(".baocao_main_back");
    
@@ -123,10 +166,10 @@ function showTableUserDetail(users){
     <table> 
     <tr>
       <th>ID</th>
+      <th>Khách hàng</th>
       <th>Chỉ số cũ</th>
       <th>Chỉ số mới</th>
       <th>Tháng</th>
-      <th>Bậc</th>
       <th>Trạng thái</th>
     </tr>
     <tbody class="table_user">
@@ -146,10 +189,10 @@ function showTableUserDetail(users){
         return `
         <tr>
           <td>${user.id}</td>
+          <td>${user.khachHang.name}</td>
           <td>${user.csc}</td>
           <td>${user.csm}</td>
           <td>${user.thang.name}</td>
-          <td>${user.bacDien.name}</td>
           <td>${state}</td>
         </tr>
         
@@ -167,10 +210,11 @@ function showLdtt(users){
     <table> 
     <tr>
       <th>ID</th>
+      <th>Khách hàng</th>
       <th>Chỉ số cũ</th>
       <th>Chỉ số mới</th>
       <th>Tháng</th>
-      <th>Bậc</th>
+      
       <th>Trạng thái</th>
     </tr>
     <tbody class="table_user">
@@ -191,10 +235,10 @@ function showLdtt(users){
         return `
         <tr>
           <td>${user.id}</td>
+          <td>${user.khachHang.name}</td>
           <td>${user.csc}</td>
           <td>${user.csm}</td>
           <td>${user.thang.name}</td>
-          <td>${user.bacDien.name}</td>
           <td>${state}</td>
         </tr>
         
@@ -228,7 +272,7 @@ function getListUserPayment(){
             return response.json();
         })
         .then(function(users) {
-            showTableUser(users);
+            showTableUserPayment(users);
         })
         .catch((err) => {
             console.log(err);
