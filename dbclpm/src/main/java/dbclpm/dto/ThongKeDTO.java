@@ -31,19 +31,20 @@ public class ThongKeDTO {
 		this.oldValue = luongDienTieuThu.getCsc();
 		this.newValue = luongDienTieuThu.getCsm();
 		this.dsTieuThuTheoBac = luongDienTieuThu.getDsTieuThuTheoBac();
-
-		// Nếu xem thống kê tháng hiện tại (=> chưa có hóa đơn)
-		if (hoaDon == null) {
-			tienDien = tienDienUltility.tinhTienDien(oldValue, newValue);
-			this.trangThai = -1;
-		} else {
-			// Nếu có hóa đơn rồi
-			tienDien = hoaDon.getTotal();
-			if (luongDienTieuThu.getState().equals("0")) {
-				this.trangThai = 0;
-			} else {
-				this.trangThai = 1;
-			}
-		}
+		this.trangThai = 1;
+		this.tienDien = hoaDon.getTotal();
+//		// Nếu xem thống kê tháng hiện tại (=> chưa có hóa đơn)
+//		if (hoaDon == null) {
+//			tienDien = tienDienUltility.tinhTienDien(oldValue, newValue);
+//			this.trangThai = -1;
+//		} else {
+//			// Nếu có hóa đơn rồi
+//			tienDien = hoaDon.getTotal();
+//			if (luongDienTieuThu.getState().equals("0")) {
+//				this.trangThai = 0;
+//			} else {
+//				this.trangThai = 1;
+//			}
+//		}
 	}
 }

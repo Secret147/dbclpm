@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 public class BacDien {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 
-	private Long price;
+	private long price;
 
 	private String name;
 

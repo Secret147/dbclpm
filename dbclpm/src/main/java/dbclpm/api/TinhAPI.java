@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import dbclpm.entity.Huyen;
@@ -43,12 +44,12 @@ public class TinhAPI {
 	 * @param tinhID
 	 * @return
 	 */
-	@GetMapping("api/tinh/{tinhID}/huyen")
-	public ResponseEntity<List<Huyen>> getDsHuyenByTinhId(@PathParam("tinhId") long tinhID) {
+	@GetMapping("api/tinh/{tinhId}/huyen")
+	public ResponseEntity<List<Huyen>> getDsHuyenByTinhId(@PathVariable("tinhId") long tinhId) {
 		/*
 		 * TODO Xử lý case: một vài tỉnh có thể không có quận/huyện
 		 */
-		List<Huyen> dsHuyenTheoTinh = huyenRepo.findByTinhId(tinhID);
+		List<Huyen> dsHuyenTheoTinh = huyenRepo.findByTinhId(tinhId);
 		return ResponseEntity.ok(dsHuyenTheoTinh);
 	}
 }

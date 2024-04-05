@@ -21,9 +21,9 @@ import lombok.NoArgsConstructor;
 public class HoaDon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 
-	private Long total;
+	private long total;
 
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date createdAt;

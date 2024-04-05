@@ -118,7 +118,7 @@ INSERT INTO xa (name, description, huyen_id) VALUES
   ('Phường Yết Kiêu', 'Phường thuộc quận Hà Đông', 12);
 
 -- Khách hàng thuộc phường Mộ Lao, Hà Đông
-INSERT INTO khach_hang (address, email, name, number_phone, note, xa_id) VALUES
+INSERT INTO khach_hang (address, email, name, tel, note, xa_id) VALUES
   ('123 Phố Trần Phú, Mộ Lao, Hà Đông, Hà Nội', 'khachhang1@example.com', 'Nguyễn Văn A', '0123456789', 'Khách hàng thân thiết', 7),
   ('456 Đường Nguyễn Trãi, Mộ Lao, Hà Đông, Hà Nội', 'khachhang2@example.com', 'Trần Thị B', '0987654321', 'Khách hàng mới', 7),
   ('789 Phố Lê Trọng Tấn, Mộ Lao, Hà Đông, Hà Nội', 'khachhang3@example.com', 'Lê Văn C', '0456789123', 'Khách hàng tiềm năng', 7),
@@ -140,8 +140,8 @@ INSERT INTO khach_hang (address, email, name, number_phone, note, xa_id) VALUES
   ('963 Phố Hoàng Cầu, Mộ Lao, Hà Đông, Hà Nội', 'khachhang19@example.com', 'Nguyễn Văn T', '0741852963', 'Khách hàng thân thiết', 7),
   ('741 Đường Nguyễn Trãi, Mộ Lao, Hà Đông, Hà Nội', 'khachhang20@example.com', 'Trần Thị U', '0852741963', 'Khách hàng cũ', 7);
 
--- Insert data into nhan_vien table
-INSERT INTO nhan_vien (name, username, password, chucvu, description)
+-- Dữ liệu nhân viên
+INSERT INTO nhan_vien (name, username, password, role, description)
 VALUES
   ('Employee 1', 'emp1', 'password1', 'Manager', 'Senior employee'),
   ('Employee 2', 'emp2', 'password2', 'Supervisor', 'Experienced employee'),
@@ -151,14 +151,14 @@ VALUES
   ('Employee 6', 'emp6', 'password6', 'Manager', 'Experienced manager'),
   ('Employee 7', 'emp7', 'password7', 'Supervisor', 'Efficient supervisor');
 
--- Insert data into nam table
+-- Dữ liệu năm 2021-2024
 INSERT INTO nam (name, description) VALUES
   ('2021', 'Year 2021'),
   ('2022', 'Year 2022'),
   ('2023', 'Year 2023'),
   ('2024', 'Year 2024');
 
--- Insert data into thang table
+-- Dữ liệu các tháng từ 2021 đến 04-2024
 INSERT INTO thang (name, description, nam_id) VALUES
   ('1', 'January', 1),
   ('2', 'February', 1),
@@ -205,47 +205,93 @@ INSERT INTO thang (name, description, nam_id) VALUES
   ('4', 'April', 4);
 
 
--- Insert data into bac_dien table
+-- Dữ liệu 6 bậc điện hiện tại
 INSERT INTO bac_dien (price, name, start_value, end_value, description) VALUES
   (1678, 'Bậc 1', 0, 50, 'Electricity tariff for 0-50 kWh'),
   (1808, 'Bậc 2', 51, 100, 'Electricity tariff for 51-100 kWh'),
   (2074, 'Bậc 3', 101, 200, 'Electricity tariff for 101-200 kWh'),
   (2612, 'Bậc 4', 201, 300, 'Electricity tariff for 201-300 kWh'),
   (2927, 'Bậc 5', 301, 400, 'Electricity tariff for 301-400 kWh'),
-  (3065, 'Bậc 6', 401, NULL, 'Electricity tariff for over 400 kWh');
+  (3065, 'Bậc 6', 401, 1000, 'Electricity tariff for over 400 kWh');
 
--- Insert data into luong_dien_tieu_thu table
-INSERT INTO luong_dien_tieu_thu (csm, csc, state, khach_hang_id, thang_id) VALUES
-  (100, 25, 1, 1, 37),
-  (250, 100, 1, 1, 38),
-  (450, 250, 1, 1, 39),
-
-  (150, 40, 1, 2, 37),
-  (320, 150, 1, 2, 38),
-  (550, 320, 1, 2, 39),
-
-  (180, 60, 1, 3, 37),
-  (420, 180, 1, 3, 38),
-  (650, 420, 1, 3, 39);
-
--- Insert data into tieu_thu_theo_bac table
-INSERT INTO tieu_thu_theo_bac (value, price, bac_dien_id, luong_dien_tieu_thu_id)
+-- Dữ liệu lượng điện tiêu thụ của 3 khách hàng đầu tiên trong 3 tháng đầu năm 2024
+INSERT INTO luong_dien_tieu_thu (csc, csm, state, khach_hang_id, thang_id)
+VALUES (100, 150, '1', 1, 37),
+       (150, 300, '1', 1, 38),
+       (300, 700, '0', 1, 39),
+       
+       (100, 150, '1', 2, 37),
+       (150, 400, '1', 2, 38),
+       (400, 700, '0', 2, 39),
+       
+       (100, 150, '1', 3, 37),
+       (150, 351, '1', 3, 38),
+       (351, 1000, '0', 3, 39);
+-- Dữ liệu lượng điện tiêu thụ theo bậc tương ứng của luong dien tieu thu
+INSERT INTO tieu_thu_theo_bac (
+  price,
+  value,
+  bac_dien_id,
+  luong_dien_tieu_thu_id
+)
 VALUES
-  (10, 500, 1, 1),
-  (20, 800, 2, 2),
-  (30, 1000, 3, 3),
-  (40, 1200, 4, 4),
-  (50, 1500, 5, 5),
-  (60, 1800, 6, 6),
-  (70, 2000, 7, 7);
-
--- Insert data into hoa_don table
-INSERT INTO hoa_don (total, description, luong_dien_tieu_thu_id, nhan_vien_id, khach_hang_id)
+  -- luong_dien_tieu_thu_id = 1 (csc=100, csm=150)
+  (1678, 50, 1, 1),
+  (1808, 50, 2, 1),
+  -- luong_dien_tieu_thu_id = 2 (csc=150, csm=300)
+  (1678, 50, 1, 2),
+  (1808, 50, 2, 2),
+  (2074, 100, 3, 2),
+  -- luong_dien_tieu_thu_id = 3 (csc=300, csm=700)
+  (1678, 50, 1, 3),
+  (1808, 50, 2, 3),
+  (2074, 100, 3, 3),
+  (2612, 100, 4, 3),
+  (2927, 100, 5, 3),
+  -- luong_dien_tieu_thu_id = 4 (csc=100, csm=150)
+  (1678, 50, 1, 4),
+  (1808, 50, 2, 4),
+  -- luong_dien_tieu_thu_id = 5 (csc=150, csm=400)
+  (1678, 50, 1, 5),
+  (1808, 50, 2, 5),
+  (2074, 100, 3, 5),
+  (2612, 100, 4, 5),
+  -- luong_dien_tieu_thu_id = 6 (csc=400, csm=700)
+  (1678, 50, 1, 6),
+  (1808, 50, 2, 6),
+  (2074, 100, 3, 6),
+  (2612, 100, 4, 6),
+  (2927, 100, 5, 6),
+  -- luong_dien_tieu_thu_id = 7 (csc=100, csm=150)
+  (1678, 50, 1, 7),
+  (1808, 50, 2, 7),
+  -- luong_dien_tieu_thu_id = 8 (csc=150, csm=351)
+  (1678, 50, 1, 8),
+  (1808, 50, 2, 8),
+  (2074, 100, 3, 8),
+  -- luong_dien_tieu_thu_id = 9 (csc=351, csm=1000)
+  (1678, 50, 1, 9),
+  (1808, 50, 2, 9),
+  (2074, 100, 3, 9),
+  (2612, 100, 4, 9),
+  (2927, 100, 5, 9),
+  (3065, 299, 6, 9);
+  
+  -- Hóa đơn tương ứng với lượng điện tiêu thụ
+INSERT INTO hoa_don (
+  created_at,
+  total,
+  khach_hang_id,
+  luong_dien_tieu_thu_id,
+  nhan_vien_id
+)
 VALUES
-  (50000, 'Electricity bill for January 2023', 1, 1, 1),
-  (60000, 'Electricity bill for February 2023', 2, 2, 2),
-  (70000, 'Electricity bill for March 2023', 3, 3, 3),
-  (80000, 'Electricity bill for April 2023', 4, 1, 4),
-  (90000, 'Electricity bill for May 2023', 5, 2, 5),
-  (100000, 'Electricity bill for June 2023', 6, 3, 6),
-  (110000, 'Electricity bill for July 2023', 7, 1, 7);
+  (NOW(), 92400, 1, 1, NULL),
+  (NOW(), 165330, 1, 2, NULL),
+  (NOW(), 897940, 1, 3, NULL),
+  (NOW(), 92400, 2, 4, NULL),
+  (NOW(), 330330, 2, 5, NULL),
+  (NOW(), 660440, 2, 6, NULL),
+  (NOW(), 92400, 3, 7, NULL),
+  (NOW(), 332000, 3, 8, NULL),
+  (NOW(), 1187230, 3, 9, NULL);

@@ -20,6 +20,7 @@ import dbclpm.repository.HoaDonRepo;
 import dbclpm.repository.LuongDienTieuThuRepo;
 import dbclpm.repository.NamRepo;
 import dbclpm.repository.ThangRepo;
+import dbclpm.ultilities.tien_dien.TienDienUltility;
 
 @RestController
 @CrossOrigin
@@ -29,6 +30,7 @@ public class ListMonitorController {
 	private final HoaDonRepo hoaDonRepo;
 	private final ThangRepo thangRepo;
 	private final NamRepo namRepo;
+	private final TienDienUltility tienDienUltility;
 
 	public ListMonitorController(LuongDienTieuThuRepo luongDienTieuThuRepo, ThangRepo thangRepo, NamRepo namRepo,
 			HoaDonRepo hoaDonRepo) {
@@ -43,7 +45,6 @@ public class ListMonitorController {
 		/*
 		 * TODO: - Xử lý case tỉnh ko có huyện, huyện ko có xã...
 		 */
-
 		long tinhId = requestParams.get("tinhId");
 		long huyenId = requestParams.get("huyenId");
 		long xaId = requestParams.get("xaId");
@@ -61,30 +62,31 @@ public class ListMonitorController {
 		List<ThongKeDTO> dsThongKe = new ArrayList<>();
 
 		// Nếu lấy danh sách thống kê trong quá khứ => đã có hóa đơn
-		if (currentTime.getMonthValue() != Integer.valueOf(thang.getName())
-				&& currentTime.getYear() != Integer.valueOf(nam.getName())) {
+		if (currentTime.getMonthValue() > Integer.valueOf(thang.getName())
+				&& currentTime.getYear() >= Integer.valueOf(nam.getName())) {
 			List<HoaDon> dsHoaDon = null;
 			if (xaId != -1) {
-				dsHoaDon = hoaDonRepo.findByKhachHangXaId(xaId);
+				dsHoaDon = hoaDonRepo.findByKhachHangXaIdAndLuongDienTieuThuThangId(xaId, thangId);
 			} else {
 				if (huyenId != -1) {
-					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenId(huyenId);
+					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenIdAndLuongDienTieuThuThangId(huyenId, thangId);
 				} else {
-					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenTinhId(tinhId);
+					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenTinhIdAndLuongDienTieuThuThangId(tinhId, thangId);
 				}
 			}
 			for (HoaDon hoaDon : dsHoaDon) {
 				dsThongKe.add(new ThongKeDTO(hoaDon.getLuongDienTieuThu(), hoaDon));
 			}
 		} else {
+			System.out.print("Ko co hoa don");	
 			List<LuongDienTieuThu> dsLuongDienTieuThu = null;
 			if (xaId != -1) {
-				dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaId(xaId);
+				dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaIdAndThangId(xaId, thangId);
 			} else {
 				if (huyenId != -1) {
-					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenId(huyenId);
+					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenIdAndThangId(huyenId, thangId);
 				} else {
-					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenTinhId(tinhId);
+					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenTinhIdAndThangId(tinhId, thangId);
 				}
 			}
 			for (LuongDienTieuThu luongDienTieuThu : dsLuongDienTieuThu) {

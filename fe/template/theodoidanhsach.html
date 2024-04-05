@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Theo dõi danh sách</title>
+    <script src="js/theodoidanhsach.js"></script>
 </head>
 
-<body>
+<body onload="start()">
     <div class="tdds_time_location_select">
         <label for="namSelect">Năm:</label>
         <select name="Năm" id="namSelect"> </select>
@@ -19,7 +20,7 @@
         <select name="Quận/Huyện" id="huyenSelect"> </select>
         <label for="xaSelect">Phường/Xã:</label>
         <select name="Phường/Xã" id="xaSelect"></select>
-        <button onclick="getTK()">
+        <button onclick="getDSTK()">
             Tìm kiếm
         </button>
     </div>
