@@ -35,11 +35,9 @@ public class HoaDon {
 	private List<LuongDienTieuThu> list = new ArrayList<>();
 	
 	@ManyToOne
-	@JsonIgnore
 	private NhanVien nhanVien;
 	
 	@ManyToOne
-	@JsonIgnore
 	private KhachHang khachHang;
 	
 	@PrePersist

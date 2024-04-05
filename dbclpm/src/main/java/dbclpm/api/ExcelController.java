@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dbclpm.entity.HoaDon;
 import dbclpm.entity.KhachHang;
 import dbclpm.entity.LuongDienTieuThu;
 import dbclpm.entity.Thang;
 import dbclpm.repository.KhachHangRepo;
 import dbclpm.repository.LuongDienTieuThuRepo;
+import dbclpm.service.HoaDonService;
 import dbclpm.service.KhachHangService;
 import dbclpm.service.LuongDienTieuThuService;
 import dbclpm.service.NamService;
@@ -44,6 +46,9 @@ public class ExcelController {
 	
 	@Autowired
 	private LuongDienTieuThuService ldttSe;
+	
+	@Autowired
+	private HoaDonService billSe;
 
     @GetMapping("/thang/export-excel")
     public ResponseEntity<byte[]> exportExcel() throws IOException {
@@ -307,60 +312,64 @@ public class ExcelController {
         headers.setContentDispositionFormData("attachment", "thongtinsudung.xlsx");
         return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
     }
-//    @GetMapping("/sodien/export")
-//    public ResponseEntity<?> exportSoDien() throws IOException {
-//       
-//        Workbook workbook = new XSSFWorkbook();
-//        Sheet sheet = workbook.createSheet("Data");
-//        
-//        
-//        
-//      
-//       
-//        
-//        String[] title ={"id","Chi so cu","Chi so moi","Thang", "Bac","Trang thai"};
-//        int cellIndex = 0;
-//        Row rowTitle = sheet.createRow(0);
-//        Cell cellTitle = rowTitle.createCell(2);
-//        cellTitle.setCellValue("Thông tin sử dụng điện của khách hàng");
-//        Row rowFirst = sheet.createRow(1);
-//        for(String x : title) {     	
-//        	Cell cell = rowFirst.createCell(cellIndex);
-//        	cell.setCellValue(x);
-//        	cellIndex++;
-//        	
-//        }
-//        int rowIndex = 2;
-//        for(luongDienTieuThu x : ldtts) {
-//        	Row row = sheet.createRow(rowIndex++);
-//        	Cell cell = row.createCell(0);
-//    		cell.setCellValue(x.getId());
-//    		
-//    		Cell cell1 = row.createCell(1);
-//    		cell1.setCellValue(x.getCsc());
-//    		
-//    		Cell cell2 = row.createCell(2);
-//    		cell2.setCellValue(x.getCsm()); 
-//    		
-//    		Cell cell3 = row.createCell(3);
-//    		cell3.setCellValue(x.getThang().getName());
-//    		
-//    		Cell cell4 = row.createCell(4);
-//    		cell4.setCellValue(x.getBacDien().getName());
-//    		
-//    		Cell cell5 = row.createCell(5);
-//    		cell5.setCellValue(x.getState() == "0" ? "Chua thanh toan" : " Da thanh toan");
-//        }
-//
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        workbook.write(outputStream);
-//        workbook.close();
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
-//        headers.setContentDispositionFormData("attachment", "thongtinsudung.xlsx");
-//        return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
-//    }
+    
+    
+    @GetMapping("/total")
+    public ResponseEntity<?> exportSoDien() throws IOException {
+       
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Data");
+        List<HoaDon> bills = billSe.getListHoaDon();
+        
+        String[] title ={"id","Tên khách hàng","Nhân viên tạo", "Tổng","Mô tả"};
+        int cellIndex = 0;
+        Row rowTitle = sheet.createRow(0);
+        Cell cellTitle = rowTitle.createCell(2);
+        cellTitle.setCellValue("Thông tin doanh thu");
+        Row rowFirst = sheet.createRow(1);
+        for(String x : title){     	
+        	Cell cell = rowFirst.createCell(cellIndex);
+        	cell.setCellValue(x);
+        	cellIndex++;
+        	
+        }
+        int rowIndex = 2;
+        for(HoaDon x : bills) {
+        	Row row = sheet.createRow(rowIndex++);
+        	Cell cell = row.createCell(0);
+    		cell.setCellValue(x.getId());
+    		
+    		Cell cell1 = row.createCell(1);
+    		cell1.setCellValue(x.getKhachHang().getName());
+    		
+    		Cell cell2 = row.createCell(2);
+    		cell2.setCellValue(x.getNhanVien().getName()); 
+    		
+    		Cell cell3 = row.createCell(3);
+    		cell3.setCellValue(x.getTotal());
+    		
+    		Cell cell4 = row.createCell(4);
+    		cell4.setCellValue(x.getDescription());
+    		
+    	
+        }
+        
+        Row rowSum = sheet.createRow(rowIndex+1);
+        Cell cellSum = rowSum.createCell(9);
+        Cell cellTitleSum = rowSum.createCell(8);
+        Long sum = billSe.getTotal();
+        cellTitleSum.setCellValue("Tổng doanh thu(VND)");
+        cellSum.setCellValue(sum);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.setContentDispositionFormData("attachment", "thongtinsudung.xlsx");
+        return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
+    }
 
 
 }
