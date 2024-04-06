@@ -2,6 +2,8 @@ package dbclpm.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,12 +23,13 @@ public class TieuThuTheoBac {
 
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date createdAt;
-
+	
 	private int value;
-
+	
 	private Long price;
-
+	
 	@ManyToOne
+	@JsonIgnore
 	private BacDien bacDien;
 
 	@PrePersist

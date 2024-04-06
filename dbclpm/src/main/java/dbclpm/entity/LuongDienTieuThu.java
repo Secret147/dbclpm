@@ -1,14 +1,12 @@
 package dbclpm.entity;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
@@ -32,11 +30,8 @@ public class LuongDienTieuThu {
 	@ManyToOne
 	private Thang thang;
 
-	@ManyToOne
-	@JsonIgnore
-	private HoaDon hoaDon;
-
 	@OneToMany
-	private List<TieuThuTheoBac> dsTieuThuTheoBac = new ArrayList<>();
+	@JoinColumn(name = "luong_dien_tieu_thu_id")
+	private List<TieuThuTheoBac> dsTieuThuTheoBac;
 
 }

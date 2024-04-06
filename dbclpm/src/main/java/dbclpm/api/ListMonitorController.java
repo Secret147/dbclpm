@@ -20,6 +20,7 @@ import dbclpm.repository.HoaDonRepo;
 import dbclpm.repository.LuongDienTieuThuRepo;
 import dbclpm.repository.NamRepo;
 import dbclpm.repository.ThangRepo;
+import dbclpm.ultilities.tien_dien.TienDienUltility;
 
 @RestController
 @CrossOrigin
@@ -29,21 +30,26 @@ public class ListMonitorController {
 	private final HoaDonRepo hoaDonRepo;
 	private final ThangRepo thangRepo;
 	private final NamRepo namRepo;
+	private final TienDienUltility tienDienUltility;
 
 	public ListMonitorController(LuongDienTieuThuRepo luongDienTieuThuRepo, ThangRepo thangRepo, NamRepo namRepo,
-			HoaDonRepo hoaDonRepo) {
+			HoaDonRepo hoaDonRepo, TienDienUltility tienDienUltility) {
 		this.luongDienTieuThuRepo = luongDienTieuThuRepo;
 		this.hoaDonRepo = hoaDonRepo;
 		this.thangRepo = thangRepo;
 		this.namRepo = namRepo;
+		this.tienDienUltility = tienDienUltility;
 	}
 
+	/**
+	 * Lấy thông tin thống kê về lượng tiêu thụ điện của gia đình theo thời gian &
+	 * địa điểm
+	 * 
+	 * @param requestParams
+	 * @return
+	 */
 	@PostMapping("api/list")
 	public ResponseEntity<List<ThongKeDTO>> getThongKe(@RequestBody HashMap<String, Integer> requestParams) {
-		/*
-		 * TODO: - Xử lý case tỉnh ko có huyện, huyện ko có xã...
-		 */
-
 		long tinhId = requestParams.get("tinhId");
 		long huyenId = requestParams.get("huyenId");
 		long xaId = requestParams.get("xaId");
@@ -53,42 +59,41 @@ public class ListMonitorController {
 		Thang thang = thangRepo.findById(thangId).orElse(null);
 		Nam nam = namRepo.findById(namId).orElse(null);
 		LocalDate currentTime = LocalDate.now();
-		
-		if (thang == null || nam == null) {
-			return null;
-		}
-			
+
 		List<ThongKeDTO> dsThongKe = new ArrayList<>();
 
-		// Nếu lấy danh sách thống kê trong quá khứ => đã có hóa đơn
-		if (currentTime.getMonthValue() != Integer.valueOf(thang.getName())
-				&& currentTime.getYear() != Integer.valueOf(nam.getName())) {
+		if (currentTime.getMonthValue() > Integer.valueOf(thang.getName())
+				&& currentTime.getYear() >= Integer.valueOf(nam.getName())) {
+			// Lấy danh sách thống kê trong quá khứ => Đã có hóa đơn
 			List<HoaDon> dsHoaDon = null;
-			if (xaId != -1) {
-				dsHoaDon = hoaDonRepo.findByKhachHangXaId(xaId);
+			if (xaId != 0) {
+				dsHoaDon = hoaDonRepo.findByKhachHangXaIdAndLuongDienTieuThuThangId(xaId, thangId);
 			} else {
-				if (huyenId != -1) {
-					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenId(huyenId);
+				if (huyenId != 0) {
+					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenIdAndLuongDienTieuThuThangId(huyenId, thangId);
 				} else {
-					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenTinhId(tinhId);
+					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenTinhIdAndLuongDienTieuThuThangId(tinhId, thangId);
 				}
 			}
 			for (HoaDon hoaDon : dsHoaDon) {
-				dsThongKe.add(new ThongKeDTO(hoaDon.getLuongDienTieuThu(), hoaDon));
+				dsThongKe.add(new ThongKeDTO(hoaDon.getLuongDienTieuThu(), hoaDon, 0));
 			}
 		} else {
+			// Lấy danh sách thống kê trong tháng này => Chưa có hóa đơn => Tính lại tiền
+			// điện
 			List<LuongDienTieuThu> dsLuongDienTieuThu = null;
 			if (xaId != -1) {
-				dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaId(xaId);
+				dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaIdAndThangId(xaId, thangId);
 			} else {
 				if (huyenId != -1) {
-					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenId(huyenId);
+					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenIdAndThangId(huyenId, thangId);
 				} else {
-					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenTinhId(tinhId);
+					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenTinhIdAndThangId(tinhId, thangId);
 				}
 			}
 			for (LuongDienTieuThu luongDienTieuThu : dsLuongDienTieuThu) {
-				dsThongKe.add(new ThongKeDTO(luongDienTieuThu, null));
+				dsThongKe.add(new ThongKeDTO(luongDienTieuThu, null,
+						tienDienUltility.tinhTienDien(luongDienTieuThu.getCsc(), luongDienTieuThu.getCsm())));
 			}
 		}
 

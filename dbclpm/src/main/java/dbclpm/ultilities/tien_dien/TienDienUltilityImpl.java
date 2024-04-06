@@ -3,9 +3,13 @@ package dbclpm.ultilities.tien_dien;
 import java.util.Comparator;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import dbclpm.entity.BacDien;
 import dbclpm.repository.BacDienRepo;
 
+
+@Service
 public class TienDienUltilityImpl implements TienDienUltility {
 
 	private final BacDienRepo bacDienRepo;

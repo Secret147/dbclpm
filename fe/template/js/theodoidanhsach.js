@@ -1,6 +1,7 @@
 //===========================================start==================================================================================
 function start() {
   getDSNam();
+  getDSTinh();
 }
 //===========================================Các func populate cho bảng thống kê====================================================
 /**
@@ -8,6 +9,15 @@ function start() {
  * @param {*} dsTK 
  */
 function populateTKTable(dsTK) {
+  // Lấy số bậc điện lớn nhất 
+  maxLength = 0;
+  for (let i = 0; i < dsTK.length; i++) {
+    const bacLength = dsTK[i].dsTieuThuTheoBac.length;
+    if (bacLength > maxLength) {
+      maxLength = bacLength;
+    }
+  }
+
   //Tạo table
   const tdds_table = document.querySelector("#tdds_table");
   let html_table =
@@ -18,7 +28,8 @@ function populateTKTable(dsTK) {
       <th>Chỉ số cũ</th>
       <th>Chỉ số mới</th>
       `
-  for (let i = 0; i < dsTK[0].dsTieuThuTheoBac.length; i++) {
+
+  for (let i = 0; i < maxLength; i++) {
     html_table += `<th>Bậc ${i + 1}</th>`;
   }
 
@@ -26,20 +37,20 @@ function populateTKTable(dsTK) {
     `<th> Tiền điện</th>
     <th>Trạng thái</th>
     </tr>
-    <tbody id="#tdds_table_content">
+    <tbody id="tdds_table_content">
     </tbody>
     </table> `
 
   tdds_table.innerHTML = html_table;
 
   //Tạo nội dung cho table
-  const tdds_table_content = document.querySelector(".tdds_table_content");
+  const tdds_table_content = document.querySelector("#tdds_table_content");
   const html = dsTK.map(function (tk) {
 
     let trangThai = "";
-    if (tk.trangThai === "-1") {
+    if (tk.trangThai === -1) {
       trangThai = "Chưa có hóa đơn";
-    } else if (tk.trangThai === "0") {
+    } else if (tk.trangThai === 0) {
       trangThai = "Chưa thanh toán"
     } else {
       trangThai = "Đã thanh toán";
@@ -56,6 +67,10 @@ function populateTKTable(dsTK) {
       rowHtml += `<td>${tk.dsTieuThuTheoBac[i].value}</td>`;
     }
 
+    for (let i = 0; i < maxLength - tk.dsTieuThuTheoBac.length; i++) {
+      rowHtml += `<td></td>`;
+    }
+
     rowHtml += `
       <td>${tk.tienDien}</td>
       <td>${trangThai}</td>
@@ -66,19 +81,20 @@ function populateTKTable(dsTK) {
 
   tdds_table_content.innerHTML = html.join('');
 }
+
 /**
  * Lấy danh sách thống kê theo thời gian và khu vực
  */
 function getDSTK() {
-  const namSelect = document.getElementById('nam');
-  const thangSelect = document.getElementById('thang');
-  const tinhSelect = document.getElementById('tinh');
-  const huyenSelect = document.getElementById('huyen');
-  const xaSelect = document.getElementById('xa');
+  const namSelect = document.getElementById('namSelect');
+  const thangSelect = document.getElementById('thangSelect');
+  const tinhSelect = document.getElementById('tinhSelect');
+  const huyenSelect = document.getElementById('huyenSelect');
+  const xaSelect = document.getElementById('xaSelect');
 
   if (namSelect.value && thangSelect.value && tinhSelect.value && huyenSelect.value && xaSelect.value) {
     try {
-      const response = fetch('api/list', {
+      fetch('http://localhost:8080/api/list', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,14 +106,12 @@ function getDSTK() {
           tinhId: namSelect.value,
           thangId: thangSelect.value,
         }),
-      });
-
-      if (response.ok) {
-        const data = response.json();
-        populateTKTable(dsTK);
-      } else {
-        console.error('Error fetching data:', response.status);
-      }
+      }).then(function (response) {
+        return response.json();
+      })
+        .then(function (dsNam) {
+          populateTKTable(dsNam);
+        })
     } catch (error) {
       console.error('Error:', error);
     }
@@ -185,7 +199,7 @@ function getDSThangByNam(namID) {
 function populateTinhSelect(dsTinh) {
   const tinhSelect = document.getElementById("tinhSelect");
   const html = dsTinh.map(function (tinh) {
-    return `<option value="${tinh.id}">Tỉnh ${tinh.name}</option>`;
+    return `<option value="${tinh.id}">${tinh.name}</option>`;
   });
 
   //Lấy các lựa chọn quận/huyện tương ứng với năm vừa chọn
@@ -201,13 +215,13 @@ function populateTinhSelect(dsTinh) {
 /**
  * Lấy danh sách tỉnh/thành phố từ API
  */
-function getDSTinh(tinhID) {
-  fetch("http://localhost:8080/api/${tinhID}")
+function getDSTinh() {
+  fetch("http://localhost:8080/api/tinh")
     .then(function (response) {
       return response.json();
     })
     .then(function (dsTinh) {
-      populateDSTinh(dsTinh);
+      populateTinhSelect(dsTinh);
     })
     .catch((err) => {
       console.log(err);
@@ -221,7 +235,7 @@ function getDSTinh(tinhID) {
 function populateDSHuyen(dsHuyen) {
   const huyenSelect = document.getElementById("huyenSelect");
   const html = dsHuyen.map(function (huyen) {
-    return `<option value="${huyen.id}">Huyện ${huyen.name}</option>`;
+    return `<option value="${huyen.id}">${huyen.name}</option>`;
   });
 
   //Lấy các lựa chọn phường/xã tương ứng với năm vừa chọn
@@ -239,6 +253,7 @@ function populateDSHuyen(dsHuyen) {
  * @param {*} tinhID 
  */
 function getDSHuyenByTinh(tinhID) {
+  tinhID === undefined ? tinhID = 0 : tinhID;
   fetch(`http://localhost:8080/api/tinh/${tinhID}/huyen`)
     .then(function (response) {
       return response.json();
@@ -258,7 +273,7 @@ function getDSHuyenByTinh(tinhID) {
 function populateDSXa(dsXa) {
   const xaSelect = document.getElementById("xaSelect");
   const html = dsXa.map(function (xa) {
-    return `<option value="${xa.id}">Xã ${xa.name}</option>`;
+    return `<option value="${xa.id}">${xa.name}</option>`;
   });
   xaSelect.innerHTML = html.join('');
 }
@@ -268,6 +283,7 @@ function populateDSXa(dsXa) {
  * @param {*} huyenID 
  */
 function getDSXaByHuyen(huyenID) {
+  huyenID === undefined ? huyenID = 0 : huyenID;
   fetch(`http://localhost:8080/api/huyen/${huyenID}/xa`)
     .then(function (response) {
       return response.json();
