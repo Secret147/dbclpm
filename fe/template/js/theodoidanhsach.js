@@ -9,7 +9,15 @@ function start() {
  * @param {*} dsTK 
  */
 function populateTKTable(dsTK) {
-  console.log(dsTK)
+  // Lấy số bậc điện lớn nhất 
+  maxLength = 0;
+  for (let i = 0; i < dsTK.length; i++) {
+    const bacLength = dsTK[i].dsTieuThuTheoBac.length;
+    if (bacLength > maxLength) {
+      maxLength = bacLength;
+    }
+  }
+
   //Tạo table
   const tdds_table = document.querySelector("#tdds_table");
   let html_table =
@@ -20,7 +28,8 @@ function populateTKTable(dsTK) {
       <th>Chỉ số cũ</th>
       <th>Chỉ số mới</th>
       `
-  for (let i = 0; i < dsTK[0].dsTieuThuTheoBac.length; i++) {
+
+  for (let i = 0; i < maxLength; i++) {
     html_table += `<th>Bậc ${i + 1}</th>`;
   }
 
@@ -39,9 +48,9 @@ function populateTKTable(dsTK) {
   const html = dsTK.map(function (tk) {
 
     let trangThai = "";
-    if (tk.trangThai === "-1") {
+    if (tk.trangThai === -1) {
       trangThai = "Chưa có hóa đơn";
-    } else if (tk.trangThai === "0") {
+    } else if (tk.trangThai === 0) {
       trangThai = "Chưa thanh toán"
     } else {
       trangThai = "Đã thanh toán";
@@ -58,6 +67,10 @@ function populateTKTable(dsTK) {
       rowHtml += `<td>${tk.dsTieuThuTheoBac[i].value}</td>`;
     }
 
+    for (let i = 0; i < maxLength - tk.dsTieuThuTheoBac.length; i++) {
+      rowHtml += `<td></td>`;
+    }
+
     rowHtml += `
       <td>${tk.tienDien}</td>
       <td>${trangThai}</td>
@@ -68,6 +81,7 @@ function populateTKTable(dsTK) {
 
   tdds_table_content.innerHTML = html.join('');
 }
+
 /**
  * Lấy danh sách thống kê theo thời gian và khu vực
  */
@@ -239,6 +253,7 @@ function populateDSHuyen(dsHuyen) {
  * @param {*} tinhID 
  */
 function getDSHuyenByTinh(tinhID) {
+  tinhID === undefined ? tinhID = 0 : tinhID;
   fetch(`http://localhost:8080/api/tinh/${tinhID}/huyen`)
     .then(function (response) {
       return response.json();
@@ -268,6 +283,7 @@ function populateDSXa(dsXa) {
  * @param {*} huyenID 
  */
 function getDSXaByHuyen(huyenID) {
+  huyenID === undefined ? huyenID = 0 : huyenID;
   fetch(`http://localhost:8080/api/huyen/${huyenID}/xa`)
     .then(function (response) {
       return response.json();

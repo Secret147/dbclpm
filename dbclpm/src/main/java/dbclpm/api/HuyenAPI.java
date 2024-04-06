@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dbclpm.entity.Xa;
 import dbclpm.repository.XaRepo;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @CrossOrigin

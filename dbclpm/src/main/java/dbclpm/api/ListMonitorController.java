@@ -33,18 +33,23 @@ public class ListMonitorController {
 	private final TienDienUltility tienDienUltility;
 
 	public ListMonitorController(LuongDienTieuThuRepo luongDienTieuThuRepo, ThangRepo thangRepo, NamRepo namRepo,
-			HoaDonRepo hoaDonRepo) {
+			HoaDonRepo hoaDonRepo, TienDienUltility tienDienUltility) {
 		this.luongDienTieuThuRepo = luongDienTieuThuRepo;
 		this.hoaDonRepo = hoaDonRepo;
 		this.thangRepo = thangRepo;
 		this.namRepo = namRepo;
+		this.tienDienUltility = tienDienUltility;
 	}
 
+	/**
+	 * Lấy thông tin thống kê về lượng tiêu thụ điện của gia đình theo thời gian &
+	 * địa điểm
+	 * 
+	 * @param requestParams
+	 * @return
+	 */
 	@PostMapping("api/list")
 	public ResponseEntity<List<ThongKeDTO>> getThongKe(@RequestBody HashMap<String, Integer> requestParams) {
-		/*
-		 * TODO: - Xử lý case tỉnh ko có huyện, huyện ko có xã...
-		 */
 		long tinhId = requestParams.get("tinhId");
 		long huyenId = requestParams.get("huyenId");
 		long xaId = requestParams.get("xaId");
@@ -54,31 +59,28 @@ public class ListMonitorController {
 		Thang thang = thangRepo.findById(thangId).orElse(null);
 		Nam nam = namRepo.findById(namId).orElse(null);
 		LocalDate currentTime = LocalDate.now();
-		
-		if (thang == null || nam == null) {
-			return null;
-		}
-			
+
 		List<ThongKeDTO> dsThongKe = new ArrayList<>();
 
-		// Nếu lấy danh sách thống kê trong quá khứ => đã có hóa đơn
 		if (currentTime.getMonthValue() > Integer.valueOf(thang.getName())
 				&& currentTime.getYear() >= Integer.valueOf(nam.getName())) {
+			// Lấy danh sách thống kê trong quá khứ => Đã có hóa đơn
 			List<HoaDon> dsHoaDon = null;
-			if (xaId != -1) {
+			if (xaId != 0) {
 				dsHoaDon = hoaDonRepo.findByKhachHangXaIdAndLuongDienTieuThuThangId(xaId, thangId);
 			} else {
-				if (huyenId != -1) {
+				if (huyenId != 0) {
 					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenIdAndLuongDienTieuThuThangId(huyenId, thangId);
 				} else {
 					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenTinhIdAndLuongDienTieuThuThangId(tinhId, thangId);
 				}
 			}
 			for (HoaDon hoaDon : dsHoaDon) {
-				dsThongKe.add(new ThongKeDTO(hoaDon.getLuongDienTieuThu(), hoaDon));
+				dsThongKe.add(new ThongKeDTO(hoaDon.getLuongDienTieuThu(), hoaDon, 0));
 			}
 		} else {
-			System.out.print("Ko co hoa don");	
+			// Lấy danh sách thống kê trong tháng này => Chưa có hóa đơn => Tính lại tiền
+			// điện
 			List<LuongDienTieuThu> dsLuongDienTieuThu = null;
 			if (xaId != -1) {
 				dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaIdAndThangId(xaId, thangId);
@@ -90,7 +92,8 @@ public class ListMonitorController {
 				}
 			}
 			for (LuongDienTieuThu luongDienTieuThu : dsLuongDienTieuThu) {
-				dsThongKe.add(new ThongKeDTO(luongDienTieuThu, null));
+				dsThongKe.add(new ThongKeDTO(luongDienTieuThu, null,
+						tienDienUltility.tinhTienDien(luongDienTieuThu.getCsc(), luongDienTieuThu.getCsm())));
 			}
 		}
 

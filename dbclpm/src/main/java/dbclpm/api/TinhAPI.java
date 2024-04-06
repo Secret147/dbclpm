@@ -12,7 +12,6 @@ import dbclpm.entity.Huyen;
 import dbclpm.entity.Tinh;
 import dbclpm.repository.HuyenRepo;
 import dbclpm.repository.TinhRepo;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @CrossOrigin

@@ -214,7 +214,8 @@ INSERT INTO bac_dien (price, name, start_value, end_value, description) VALUES
   (2927, 'Bậc 5', 301, 400, 'Electricity tariff for 301-400 kWh'),
   (3065, 'Bậc 6', 401, 1000, 'Electricity tariff for over 400 kWh');
 
--- Dữ liệu lượng điện tiêu thụ của 3 khách hàng đầu tiên trong 3 tháng đầu năm 2024
+-- Dữ liệu lượng điện tiêu thụ của 3 khách hàng đầu tiên trong 4 tháng đầu năm 2024
+-- Tháng 4 chưa kết húc nên chưa xuất hóa đơn, state = - 1 => chưa kết thúc!!!
 INSERT INTO luong_dien_tieu_thu (csc, csm, state, khach_hang_id, thang_id)
 VALUES (100, 150, '1', 1, 37),
        (150, 300, '1', 1, 38),
@@ -226,7 +227,13 @@ VALUES (100, 150, '1', 1, 37),
        
        (100, 150, '1', 3, 37),
        (150, 351, '1', 3, 38),
-       (351, 1000, '0', 3, 39);
+       (351, 1000, '0', 3, 39),
+       
+       (700, 1200, '-1', 1, 40),
+       (700, 800, '-1', 2, 40),
+       (1000, 2000, '-1', 3, 40);
+       
+       
 -- Dữ liệu lượng điện tiêu thụ theo bậc tương ứng của luong dien tieu thu
 INSERT INTO tieu_thu_theo_bac (
   price,
@@ -275,7 +282,24 @@ VALUES
   (2074, 100, 3, 9),
   (2612, 100, 4, 9),
   (2927, 100, 5, 9),
-  (3065, 299, 6, 9);
+  (3065, 299, 6, 9),
+    -- luong_dien_tieu_thu_id = 10 (csc=700, csm=1200)
+  (1678, 50, 1, 10),
+  (1808, 50, 2, 10),
+  (2074, 100, 3, 10),
+  (2612, 100, 4, 10),
+  (2927, 100, 5, 10),
+  (3065, 100, 6, 10),
+    -- luong_dien_tieu_thu_id = 11 (csc=700, csm=800)
+  (1678, 50, 1, 11),
+  (1808, 50, 2, 11),
+    -- luong_dien_tieu_thu_id = 12 (csc=1000, csm=2000)
+  (1678, 50, 1, 12),
+  (1808, 50, 2, 12),
+  (2074, 100, 3, 12),
+  (2612, 100, 4, 12),
+  (2927, 100, 5, 12),
+  (3065, 600, 6, 12);
   
   -- Hóa đơn tương ứng với lượng điện tiêu thụ
 INSERT INTO hoa_don (
