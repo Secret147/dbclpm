@@ -36,10 +36,11 @@
 
 }
 .baocao_main_back{
-    height: 60%;
+    height: 450px;
     border: 1px solid gray;
     border-radius: 10px;
     margin-top: 12px;
+    overflow-y: scroll;
 
 }
 .baocao_main_back_title{

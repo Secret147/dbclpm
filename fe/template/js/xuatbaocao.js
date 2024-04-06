@@ -115,7 +115,7 @@ function showTableUser(users) {
           <td>${user.name}</td>
           <td>${user.email}</td>
           <td>${user.address}</td>
-          <td>${user.numberPhone}</td>    
+          <td>${user.tel}</td>    
           <td>${user.note}</td>
 
         </tr>
@@ -134,7 +134,7 @@ function showTableTotal(bills) {
   <tr>
     <th>ID Hóa đơn</th>
     <th>Tên khách hàng</th>
-    <th>Nhân viên</th>
+  
     <th>Tổng</th>
     <th>Ghi chú</th>   
    
@@ -149,7 +149,7 @@ function showTableTotal(bills) {
       <tr>
         <td>${bill.id}</td>
         <td>${bill.khachHang.name}</td>
-        <td>${bill.nhanVien.name}</td>
+     
         <td>${bill.total}</td>
         <td>${bill.description}</td>    
       </tr>
@@ -187,7 +187,7 @@ function showTableUserPayment(users) {
         <td>${user.khachHang.name}</td>
         <td>${user.khachHang.email}</td>
         <td>${user.khachHang.address}</td>
-        <td>${user.khachHang.numberPhone}</td>    
+        <td>${user.khachHang.tel}</td>    
         <td>${user.khachHang.note}</td>
         <td>${user.thang.name}</td>
 

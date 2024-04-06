@@ -187,7 +187,7 @@ public class ExcelController {
     		cell3.setCellValue(x.getAddress());
     		
     		Cell cell4 = row.createCell(4);
-    		cell4.setCellValue(x.getNumberPhone());
+    		cell4.setCellValue(x.getTel());
     		
     		Cell cell5 = row.createCell(5);
     		cell5.setCellValue(x.getNote());
@@ -241,7 +241,7 @@ public class ExcelController {
     		cell3.setCellValue(x.getKhachHang().getAddress());
     		
     		Cell cell4 = row.createCell(4);
-    		cell4.setCellValue(x.getKhachHang().getNumberPhone());
+    		cell4.setCellValue(x.getKhachHang().getTel());
     		
     		Cell cell5 = row.createCell(5);
     		cell5.setCellValue(x.getKhachHang().getNote());
