@@ -20,28 +20,20 @@ public class TieuThuTheoBac {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Date created_at;
+	private Date createdAt;
 	
 	private int value;
 	
 	private Long price;
 	
-	@PrePersist
-    protected void onCreate() {
-        created_at = new Date();
-    }
-	
-	@ManyToOne 
-	private BacDien bacDien;
-	
-	@ManyToOne 
+	@ManyToOne
 	@JsonIgnore
-	private LuongDienTieuThu ldtt;
-	
-	
-	
-	
+	private BacDien bacDien;
 
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
 }

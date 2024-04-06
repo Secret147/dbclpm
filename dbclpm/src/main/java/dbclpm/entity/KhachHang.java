@@ -1,8 +1,5 @@
 package dbclpm.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -10,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Entity
@@ -26,20 +22,10 @@ public class KhachHang {
 
 	private String name;
 
-	private String numberPhone;
+	private String tel;
 
 	private String note;
 
-	@OneToMany(mappedBy = "khachHang")
-	@JsonIgnore
-	private List<LuongDienTieuThu> list = new ArrayList<>();
-
-	
-
-	@OneToMany(mappedBy = "khachHang")
-	@JsonIgnore
-	private List<HoaDon> listHoaDon = new ArrayList<>();
-	
 	@ManyToOne
 	@JsonIgnore
 	private Xa xa;
@@ -54,7 +40,7 @@ public class KhachHang {
 		this.email = (String) obj[3];
 		this.name = (String) obj[4];
 		this.note = (String) obj[5];
-		this.numberPhone = (String) obj[6];
+		this.tel = (String) obj[6];
 	}
 
 }

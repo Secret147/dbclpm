@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theo dõi danh sách</title>
+    <script src="js/theodoidanhsach.js"></script>
+</head>
+
+<body onload="start()">
+    <div class="tdds_time_location_select">
+        <label for="namSelect">Năm:</label>
+        <select name="Năm" id="namSelect"> </select>
+        <label for="thangSelect">Tháng:</label>
+        <select name="Tháng" id="thangSelect"> </select>
+        <label for="tinhSelect">Tỉnh/Thành phố:</label>
+        <select name="Tỉnh/Thành phố" id="tinhSelect"> </select>
+        <label for="huyenSelect">Quận/Huyện:</label>
+        <select name="Quận/Huyện" id="huyenSelect"> </select>
+        <label for="xaSelect">Phường/Xã:</label>
+        <select name="Phường/Xã" id="xaSelect"></select>
+        <button onclick="getDSTK()">
+            Tìm kiếm
+        </button>
+    </div>
+    <div id="tdds_table"></div>
+</body>
+
+</html>

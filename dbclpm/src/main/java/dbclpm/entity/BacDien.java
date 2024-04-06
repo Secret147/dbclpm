@@ -1,42 +1,28 @@
 package dbclpm.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class BacDien {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private Long price;
-	
-	private String name;
-	
-	private int startValue;
-	
-	private int endValue;
-	
-	private String description;
-	
-	
-	@OneToMany(mappedBy = "bacDien")
-	@JsonIgnore
-	private List<TieuThuTheoBac> list = new ArrayList<>();
-	
+	private long id;
 
-	public BacDien() {
-		// TODO Auto-generated constructor stub
-	}
+	private long price;
+
+	private String name;
+
+	private int startValue;
+
+	private int endValue;
+
+	private String description;
 
 }

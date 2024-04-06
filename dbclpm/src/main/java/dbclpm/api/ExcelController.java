@@ -34,16 +34,16 @@ import java.util.List;
 public class ExcelController {
 	@Autowired
 	private NamService namSe;
-	
+
 	@Autowired
 	private KhachHangRepo khachHangRe;
-	
+
 	@Autowired
 	private KhachHangService khachhangSe;
-	
+
 	@Autowired
 	private LuongDienTieuThuRepo ldttRe;
-	
+
 	@Autowired
 	private LuongDienTieuThuService ldttSe;
 	
@@ -370,7 +370,6 @@ public class ExcelController {
         headers.setContentDispositionFormData("attachment", "thongtinsudung.xlsx");
         return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
     }
-
+	
 
 }
-
