@@ -58,4 +58,10 @@
     font-weight: 500;
 
 }
-
+.back_icon{
+    height: 28px;
+    width: 32px;
+    position: absolute;
+    top: 18px;
+    left: 18px;
+}

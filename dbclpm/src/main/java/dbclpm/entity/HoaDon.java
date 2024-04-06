@@ -35,11 +35,9 @@ public class HoaDon {
 	private LuongDienTieuThu luongDienTieuThu;
 
 	@ManyToOne
-	@JsonIgnore
 	private NhanVien nhanVien;
 
 	@ManyToOne
-	@JsonIgnore
 	private KhachHang khachHang;
 
 	@PrePersist

@@ -121,3 +121,16 @@ table {
     font-weight: bold;
     text-align: center;
 }
+
+.total_text{
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+.back_icon{
+    height: 28px;
+    width: 32px;
+    position: absolute;
+    top: 18px;
+    left: 18px;
+}
