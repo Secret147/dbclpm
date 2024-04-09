@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @Entity
 public class BacDien {
 	@Id
@@ -25,4 +24,63 @@ public class BacDien {
 
 	private String description;
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getPrice() {
+		return price;
+	}
+
+	public void setPrice(long price) {
+		this.price = price;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getStartValue() {
+		return startValue;
+	}
+
+	public void setStartValue(int startValue) {
+		this.startValue = startValue;
+	}
+
+	public int getEndValue() {
+		return endValue;
+	}
+
+	public void setEndValue(int endValue) {
+		this.endValue = endValue;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public BacDien(long id, long price, String name, int startValue, int endValue, String description) {
+		this.id = id;
+		this.price = price;
+		this.name = name;
+		this.startValue = startValue;
+		this.endValue = endValue;
+		this.description = description;
+	}
+
+	public BacDien() {
+	}
 }
