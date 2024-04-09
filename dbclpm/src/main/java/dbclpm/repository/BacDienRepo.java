@@ -6,5 +6,6 @@ import dbclpm.entity.BacDien;
 
 
 public interface BacDienRepo extends JpaRepository<BacDien, Long>{
-
+	BacDien findTop1ByEndValueLessThanOrderByEndValueDesc(double endValue);
+    BacDien findTop1ByStartValueGreaterThanOrderByStartValueAsc(double startValue);
 }
