@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cấu hình</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 <style>
     body {
@@ -45,7 +45,7 @@
     }
 
     .edit-button,
-    .delete-button,
+
     .add-button {
         padding: 5px 10px;
         border: none;
@@ -55,8 +55,20 @@
         color: #fff;
     }
 
-    .edit-button:hover,
+    .delete-button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        background-color: #ff0000;
+        color: #fff;
+    }
+
     .delete-button:hover {
+        background-color: #b33c00;
+    }
+
+    .edit-button:hover {
         background-color: #0056b3;
     }
 
@@ -103,6 +115,15 @@
         border-radius: 3px;
         box-sizing: border-box;
     }
+
+    .dialog input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+
 
     .dialog button {
         padding: 10px 20px;
@@ -173,6 +194,14 @@
     <div class="dialog" id="edit-dialog">
         <h2>Sửa Bậc</h2>
         <form id="edit-form">
+            <!--  document.getElementById('bac').value = name;
+            document.getElementById('batdau').value = startValue;
+            document.getElementById('ketthuc').value = endValue;
+            document.getElementById('gia').value = price; -->
+            <div>
+                <label for="bac">Id:</label>
+                <input type="number" id="id" name="id" required readonly>
+            </div>
             <div>
                 <label for="bac">Bậc:</label>
                 <input type="text" id="bac" name="bac" required>
@@ -225,7 +254,7 @@
                     const maxKetthuc = Math.max(...data.map(item => item.endValue));
                     console.log(maxGia + " " + maxKetthuc)
                     // Check conditions
-                    if (newGia > maxGia && newBatdau > maxKetthuc) {
+                    if (newGia > maxGia && newBatdau > maxKetthuc && newBatdau < newKetthuc) {
                         // Conditions met, send request to add new record
                         fetch('http://localhost:8081/bacdien/api/bac-dien', {
                             method: 'POST',
@@ -253,8 +282,9 @@
             closeAddDialog();
         });
 
-        function openDialog(name, startValue, endValue, price) {
+        function openDialog(id, name, startValue, endValue, price) {
             // Set values for inputs
+            document.getElementById('id').value = id;
             document.getElementById('bac').value = name;
             document.getElementById('batdau').value = startValue;
             document.getElementById('ketthuc').value = endValue;
@@ -283,7 +313,7 @@
                         const fistId = idToDelete - 1;
                         const nextId = idToDelete + 1;
                         if (fistId != null && nextId != null) {
-                            alert('Không thế xóa bậc này do ràng buộc về chỉ số bậc ' + fistId + ' và bậc ' + nextId);
+                            alert('Không thể xóa bậc này vì còn bị ràng buộc điều kiện');
 
                         }
                     }
@@ -294,20 +324,20 @@
         // When submitting edit form
         document.getElementById('edit-form').addEventListener('submit', function (event) {
             event.preventDefault();
-
+            const id = document.getElementById('id').value;
             const bac = document.getElementById('bac').value;
             const batdau = document.getElementById('batdau').value;
             const ketthuc = document.getElementById('ketthuc').value;
             const gia = document.getElementById('gia').value;
 
-            const idToUpdate = document.getElementById('bac').value;
             console.log(ketthuc);
-            fetch(`http://localhost:8081/bacdien/api/bac-dien/${idToUpdate}`, {
+            fetch(`http://localhost:8081/bacdien/api/bac-dien/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ bac, batdau, ketthuc, gia })
+                body: JSON.stringify({ id: id, name: bac, startValue: batdau, endValue: ketthuc, price: gia })
+
             })
                 .then(response => {
                     if (response.ok) {
@@ -334,7 +364,7 @@
                         <td>${item.startValue}</td>
                         <td>${item.endValue}</td>
                         <td>${item.price}</td>
-                        <td><button class="edit-button" onclick="openDialog(${item.name}, ${item.startValue}, ${item.endValue}, ${item.price})">Sửa</button></td>
+                        <td><button class="edit-button" onclick="openDialog(${item.id},'${item.name}', ${item.startValue}, ${item.endValue}, ${item.price})">Sửa</button></td>
                         <td><button class="delete-button" onclick="deleteRecord(${item.id})">Xóa</button></td>
                     `;
                     tableBody.appendChild(row);
