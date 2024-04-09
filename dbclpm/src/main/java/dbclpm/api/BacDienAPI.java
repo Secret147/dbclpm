@@ -70,22 +70,27 @@ public class BacDienAPI {
 	@Transactional
 	@PostMapping("/api/bac-dien")
 	public ResponseEntity<String> addNewBacDien(@RequestBody BacDien request) {
-		System.out.println(request);
-		String insertQuery = "INSERT INTO bac_dien (price, name, start_value, end_value, description) VALUES ( :price,:name, :startValue, :endValue, :description)";
-		Query query = entityManager.createNativeQuery(insertQuery);
-		query.setParameter("price", request.getPrice());
-		query.setParameter("name", request.getName());
-		query.setParameter("startValue", request.getStartValue());
-		query.setParameter("endValue", request.getEndValue());
-		query.setParameter("description", request.getDescription());
+		if(request.getStartValue() > -1 && request.getStartValue() < request.getEndValue()) {
+			String insertQuery = "INSERT INTO bac_dien (price, name, start_value, end_value, description) VALUES ( :price,:name, :startValue, :endValue, :description)";
+			Query query = entityManager.createNativeQuery(insertQuery);
+			query.setParameter("price", request.getPrice());
+			query.setParameter("name", request.getName());
+			query.setParameter("startValue", request.getStartValue());
+			query.setParameter("endValue", request.getEndValue());
+			query.setParameter("description", request.getDescription());
 
-		try {
-			query.executeUpdate();
-			return ResponseEntity.status(HttpStatus.CREATED).body("Bậc mới đã được thêm");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi thêm bậc mới");
+			try {
+				query.executeUpdate();
+				return ResponseEntity.status(HttpStatus.CREATED).body("Bậc mới đã được thêm");
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi thêm bậc mới");
+			}
+			
+			
 		}
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi thêm bậc mới");
+		
 	}
 
 	@Transactional

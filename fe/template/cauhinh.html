@@ -341,10 +341,10 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        alert('Record updated successfully');
+                        alert('Đã sửa lại');
                         location.reload(); // Reload page after successful update
                     } else {
-                        alert('Failed to update record');
+                        alert('Lỗi sửa');
                     }
                 })
                 .catch(error => console.error('Error updating record:', error));
