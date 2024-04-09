@@ -1,5 +1,9 @@
 package dbclpm.service;
 
-public interface BacDienService {
+import dbclpm.entity.BacDien;
 
+import java.util.List;
+
+public interface BacDienService {
+    List<BacDien> getAllBacDien();
 }
