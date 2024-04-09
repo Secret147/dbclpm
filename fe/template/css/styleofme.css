@@ -1,0 +1,62 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Time and Location Select */
+.tdds_time_location_select {
+    background-color: #f2f2f2;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.tdds_time_location_select label {
+    font-weight: bold;
+}
+
+.tdds_time_location_select select,
+.tdds_time_location_select button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.tdds_time_location_select button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.tdds_time_location_select button:hover {
+    background-color: #45a049;
+}
+
+/* Table Styles */
+#tdds_table {
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
