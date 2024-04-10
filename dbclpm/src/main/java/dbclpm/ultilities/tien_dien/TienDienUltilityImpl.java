@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import dbclpm.entity.BacDien;
 import dbclpm.repository.BacDienRepo;
 
-
 @Service
 public class TienDienUltilityImpl implements TienDienUltility {
 
@@ -51,7 +50,8 @@ public class TienDienUltilityImpl implements TienDienUltility {
 			i++;
 		}
 
-		return tienDien;
+		// 8% VAT
+		return tienDien + Math.round(tienDien * 0.08);
 	}
 
 }

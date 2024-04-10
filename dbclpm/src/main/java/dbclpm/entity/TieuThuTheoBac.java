@@ -2,6 +2,9 @@ package dbclpm.entity;
 
 import java.util.Date;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -23,13 +26,14 @@ public class TieuThuTheoBac {
 
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date createdAt;
-	
+
 	private int value;
-	
+
 	private Long price;
-	
+
 	@ManyToOne
 	@JsonIgnore
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	private BacDien bacDien;
 
 	@PrePersist

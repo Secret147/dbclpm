@@ -1,15 +1,10 @@
 package dbclpm.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import dbclpm.dto.KhachHangDTO;
 import dbclpm.entity.KhachHang;
-import dbclpm.entity.Xa;
-import dbclpm.repository.HuyenRepo;
 import dbclpm.repository.KhachHangRepo;
-import dbclpm.repository.XaRepo;
 import dbclpm.ultilities.tien_dien.ObjectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,16 +14,12 @@ import dbclpm.repository.LuongDienTieuThuRepo;
 import dbclpm.service.KhachHangService;
 
 @Service
-public class KhachHangServiceImpl implements KhachHangService{
+public class KhachHangServiceImpl implements KhachHangService {
 
 	@Autowired
 	private LuongDienTieuThuRepo ldttRe;
 	@Autowired
 	private KhachHangRepo khachHangRepo;
-	@Autowired
-	private XaRepo xaRepo;
-	@Autowired
-	private HuyenRepo huyenRepo;
 	@Autowired
 	private ObjectUtil objectUtil;
 
@@ -43,10 +34,9 @@ public class KhachHangServiceImpl implements KhachHangService{
 
 	@Override
 	public List<LuongDienTieuThu> getListKhPayment() {
-		
-        List<LuongDienTieuThu> ob = ldttRe.getKhachHangctt();
-        
-        
+
+		List<LuongDienTieuThu> ob = ldttRe.getKhachHangctt();
+
 		return ob;
 	}
 
@@ -56,10 +46,10 @@ public class KhachHangServiceImpl implements KhachHangService{
 		Object huyenId = params.get("districtId");
 		Object tinhId = params.get("provinceId");
 
-		if(objectUtil.checkObject(xaId)){
+		if (objectUtil.checkObject(xaId)) {
 			List<KhachHang> khachHangs = khachHangRepo.findByXaId(Long.valueOf(xaId.toString()));
 			return khachHangs;
-		}else if(objectUtil.checkObject(huyenId)){
+		} else if (objectUtil.checkObject(huyenId)) {
 //			List<KhachHang> result = new ArrayList<>();
 //			List<Xa> xas = xaRepo.findByHuyenId((Long) huyenId);
 //			for(Xa xa : xas){
@@ -69,12 +59,11 @@ public class KhachHangServiceImpl implements KhachHangService{
 //			return result;
 			List<KhachHang> khachHangs = khachHangRepo.findByHuyenId(Long.valueOf(huyenId.toString()));
 			return khachHangs;
-		}else if(objectUtil.checkObject(tinhId)){
+		} else if (objectUtil.checkObject(tinhId)) {
 			List<KhachHang> khachHangs = khachHangRepo.findByTinhId(Long.valueOf(tinhId.toString()));
 			return khachHangs;
 		}
 		return null;
 	}
-
 
 }

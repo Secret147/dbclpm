@@ -1,365 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cấu hình</title>
     <!-- <link rel="stylesheet" href="styles.css"> -->
-</head>
-<style>
+  </head>
+  <style>
     body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
     }
 
     .container {
-        width: 80%;
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     table {
-        width: 100%;
-        border-collapse: collapse;
+      width: 100%;
+      border-collapse: collapse;
     }
 
     th,
     td {
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
     }
 
     th {
-        background-color: #f2f2f2;
+      background-color: #f2f2f2;
     }
 
     tr:hover {
-        background-color: #f9f9f9;
+      background-color: #f9f9f9;
     }
 
     .edit-button,
-
     .add-button {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        background-color: #007bff;
-        color: #fff;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
     }
 
     .delete-button {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        background-color: #ff0000;
-        color: #fff;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      background-color: #ff0000;
+      color: #fff;
     }
 
     .delete-button:hover {
-        background-color: #b33c00;
+      background-color: #b33c00;
     }
 
     .edit-button:hover {
-        background-color: #0056b3;
+      background-color: #0056b3;
     }
 
     /* Styling for dialog */
     .dialog {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
     }
 
     .dialog h2 {
-        margin-top: 0;
+      margin-top: 0;
     }
 
     .dialog form div {
-        margin-bottom: 10px;
+      margin-bottom: 10px;
     }
 
     .dialog label {
-        display: block;
-        font-weight: bold;
+      display: block;
+      font-weight: bold;
     }
 
     .dialog input[type="number"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        box-sizing: border-box;
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
     }
 
     .dialog input[type="text"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        box-sizing: border-box;
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
     }
 
-
     .dialog button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        background-color: #007bff;
-        color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
     }
 
     .dialog button[type="submit"] {
-        background-color: #28a745;
+      background-color: #28a745;
     }
 
     .dialog button[type="submit"]:hover,
     .dialog button[type="button"]:hover {
-        background-color: #0056b3;
+      background-color: #0056b3;
     }
-</style>
+  </style>
 
-<body>
+  <body>
     <div class="container">
-        <h1>Cấu hình bậc</h1>
-        <button onclick="openAddDialog()" class="add-button" , style="margin-bottom: 20px;">Thêm Bậc Mới</button>
-        <table id="config-table">
-            <thead>
-                <tr>
-                    <th>Số Bậc</th>
-                    <th>Bắt Đầu</th>
-                    <th>Kết Thúc</th>
-                    <th>Giá Tiền</th>
-                    <th>Sửa</th>
-                    <th>Xóa</th>
-                </tr>
-            </thead>
-            <tbody id="config-table-body">
-                <!-- Dữ liệu từ API sẽ được thêm vào đây -->
-            </tbody>
-        </table>
+      <h1>Cấu hình bậc</h1>
+      <button
+        onclick="openAddDialog()"
+        class="add-button"
+        ,
+        style="margin-bottom: 20px"
+      >
+        Thêm Bậc Mới
+      </button>
+      <table id="config-table">
+        <thead>
+          <tr>
+            <th>Số Bậc</th>
+            <th>Bắt Đầu</th>
+            <th>Kết Thúc</th>
+            <th>Giá Tiền</th>
+            <th>Sửa</th>
+            <th>Xóa</th>
+          </tr>
+        </thead>
+        <tbody id="config-table-body">
+          <!-- Dữ liệu từ API sẽ được thêm vào đây -->
+        </tbody>
+      </table>
     </div>
     <!-- Dialog cho việc thêm bậc mới -->
     <div class="overlay" id="overlay"></div>
     <div class="dialog" id="add-dialog">
-        <h2>Thêm Bậc Mới</h2>
-        <form id="add-form">
-            <div>
-                <label for="new-bac">Bậc:</label>
-                <input type="text" id="new-bac" name="new-bac" required>
-            </div>
-            <div>
-                <label for="new-batdau">Bắt Đầu:</label>
-                <input type="number" id="new-batdau" name="new-batdau" required>
-            </div>
-            <div>
-                <label for="new-ketthuc">Kết Thúc:</label>
-                <input type="number" id="new-ketthuc" name="new-ketthuc" required>
-            </div>
-            <div>
-                <label for="new-gia">Giá Tiền:</label>
-                <input type="number" id="new-gia" name="new-gia" required>
-            </div>
-            <button type="submit">Thêm</button>
-            <button type="button" onclick="closeAddDialog()">Hủy</button>
-        </form>
+      <h2>Thêm Bậc Mới</h2>
+      <form id="add-form">
+        <div>
+          <label for="new-bac">Bậc:</label>
+          <input type="text" id="new-bac" name="new-bac" required />
+        </div>
+        <div>
+          <label for="new-batdau">Bắt Đầu:</label>
+          <input type="number" id="new-batdau" name="new-batdau" required />
+        </div>
+        <div>
+          <label for="new-ketthuc">Kết Thúc:</label>
+          <input type="number" id="new-ketthuc" name="new-ketthuc" required />
+        </div>
+        <div>
+          <label for="new-gia">Giá Tiền:</label>
+          <input type="number" id="new-gia" name="new-gia" required />
+        </div>
+        <button type="submit">Thêm</button>
+        <button type="button" onclick="closeAddDialog()">Hủy</button>
+      </form>
     </div>
     <!-- Dialog for editing record -->
     <div class="overlay" id="overlay"></div>
     <div class="dialog" id="edit-dialog">
-        <h2>Sửa Bậc</h2>
-        <form id="edit-form">
-            <!--  document.getElementById('bac').value = name;
+      <h2>Sửa Bậc</h2>
+      <form id="edit-form">
+        <!--  document.getElementById('bac').value = name;
             document.getElementById('batdau').value = startValue;
             document.getElementById('ketthuc').value = endValue;
             document.getElementById('gia').value = price; -->
-            <div>
-                <label for="bac">Id:</label>
-                <input type="number" id="id" name="id" required readonly>
-            </div>
-            <div>
-                <label for="bac">Bậc:</label>
-                <input type="text" id="bac" name="bac" required>
-            </div>
-            <div>
-                <label for="batdau">Bắt Đầu:</label>
-                <input type="number" id="batdau" name="batdau" required>
-            </div>
-            <div>
-                <label for="ketthuc">Kết Thúc:</label>
-                <input type="number" id="ketthuc" name="ketthuc" required>
-            </div>
-            <div>
-                <label for="gia">Giá Tiền:</label>
-                <input type="number" id="gia" name="gia" required>
-            </div>
-            <button type="submit">Lưu</button>
-            <button type="button" onclick="closeDialog()">Hủy</button>
-        </form>
+        <div>
+          <label for="bac">Id:</label>
+          <input type="number" id="id" name="id" required readonly />
+        </div>
+        <div>
+          <label for="bac">Bậc:</label>
+          <input type="text" id="bac" name="bac" required />
+        </div>
+        <div>
+          <label for="batdau">Bắt Đầu:</label>
+          <input type="number" id="batdau" name="batdau" required />
+        </div>
+        <div>
+          <label for="ketthuc">Kết Thúc:</label>
+          <input type="number" id="ketthuc" name="ketthuc" required />
+        </div>
+        <div>
+          <label for="gia">Giá Tiền:</label>
+          <input type="number" id="gia" name="gia" required />
+        </div>
+        <button type="submit">Lưu</button>
+        <button type="button" onclick="closeDialog()">Hủy</button>
+      </form>
     </div>
 
     <script>
-        function openAddDialog() {
-            document.getElementById('add-dialog').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        }
+      function openAddDialog() {
+        document.getElementById("add-dialog").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+      }
 
-        // Function to close add dialog
-        function closeAddDialog() {
-            document.getElementById('add-dialog').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
+      // Function to close add dialog
+      function closeAddDialog() {
+        document.getElementById("add-dialog").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+      }
 
-        // Event listener for form submission
-        document.getElementById('add-form').addEventListener('submit', function (event) {
-            event.preventDefault();
+      // Event listener for form submission
+      document
+        .getElementById("add-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
 
-            // Get values from form inputs
-            const newBac = document.getElementById('new-bac').value;
-            const newBatdau = document.getElementById('new-batdau').value;
-            const newKetthuc = document.getElementById('new-ketthuc').value;
-            const newGia = document.getElementById('new-gia').value;
+          // Get values from form inputs
+          const newBac = document.getElementById("new-bac").value;
+          const newBatdau = document.getElementById("new-batdau").value;
+          const newKetthuc = document.getElementById("new-ketthuc").value;
+          const newGia = document.getElementById("new-gia").value;
 
-            // Fetch data from API to check conditions
-            fetch('http://localhost:8081/bacdien/api/bac-dien')
-                .then(response => response.json())
-                .then(data => {
-                    // Get max gia and ketthuc from existing data
-                    const maxGia = Math.max(...data.map(item => item.price));
-                    const maxKetthuc = Math.max(...data.map(item => item.endValue));
-                    console.log(maxGia + " " + maxKetthuc)
-                    // Check conditions
-                    if (newGia > maxGia && newBatdau > maxKetthuc && newBatdau < newKetthuc) {
-                        // Conditions met, send request to add new record
-                        fetch('http://localhost:8081/bacdien/api/bac-dien', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ name: newBac, startValue: newBatdau, endValue: newKetthuc, price: newGia })
-                        })
-                            .then(response => {
-                                if (response.ok) {
-                                    alert('Bậc mới đã được thêm');
-                                    location.reload(); // Reload page after successful addition
-                                } else {
-                                    alert('Lỗi khi thêm bậc mới');
-                                }
-                            })
-                            .catch(error => console.error('Error adding new record:', error));
-                    } else {
-                        // Conditions not met, show error message
-                        alert('Không thể thêm bậc mới do không đáp ứng điều kiện');
-                    }
+          // Fetch data from API to check conditions
+          fetch("http://localhost:8080/bacdien/api/bac-dien")
+            .then((response) => response.json())
+            .then((data) => {
+              // Get max gia and ketthuc from existing data
+              const maxGia = Math.max(...data.map((item) => item.price));
+              const maxKetthuc = Math.max(...data.map((item) => item.endValue));
+              console.log(maxGia + " " + maxKetthuc);
+              // Check conditions
+              if (
+                newGia > maxGia &&
+                newBatdau > maxKetthuc &&
+                newBatdau < newKetthuc
+              ) {
+                // Conditions met, send request to add new record
+                fetch("http://localhost:8080/bacdien/api/bac-dien", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    name: newBac,
+                    startValue: newBatdau,
+                    endValue: newKetthuc,
+                    price: newGia,
+                  }),
                 })
-                .catch(error => console.error('Error fetching data:', error));
+                  .then((response) => {
+                    if (response.ok) {
+                      alert("Bậc mới đã được thêm");
+                      location.reload(); // Reload page after successful addition
+                    } else {
+                      alert("Lỗi khi thêm bậc mới");
+                    }
+                  })
+                  .catch((error) =>
+                    console.error("Error adding new record:", error)
+                  );
+              } else {
+                // Conditions not met, show error message
+                alert("Không thể thêm bậc mới do không đáp ứng điều kiện");
+              }
+            })
+            .catch((error) => console.error("Error fetching data:", error));
 
-            closeAddDialog();
+          closeAddDialog();
         });
 
-        function openDialog(id, name, startValue, endValue, price) {
-            // Set values for inputs
-            document.getElementById('id').value = id;
-            document.getElementById('bac').value = name;
-            document.getElementById('batdau').value = startValue;
-            document.getElementById('ketthuc').value = endValue;
-            document.getElementById('gia').value = price;
+      function openDialog(id, name, startValue, endValue, price) {
+        // Set values for inputs
+        document.getElementById("id").value = id;
+        document.getElementById("bac").value = name;
+        document.getElementById("batdau").value = startValue;
+        document.getElementById("ketthuc").value = endValue;
+        document.getElementById("gia").value = price;
 
-            // Show dialog and overlay
-            document.getElementById('edit-dialog').style.display = 'block';
-            document.getElementById('overlay').style.display = 'block';
-        }
+        // Show dialog and overlay
+        document.getElementById("edit-dialog").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+      }
 
-        function closeDialog() {
-            // Hide dialog and overlay
-            document.getElementById('edit-dialog').style.display = 'none';
-            document.getElementById('overlay').style.display = 'none';
-        }
-        function deleteRecord(idToDelete) {
-            fetch(`http://localhost:8081/bacdien/api/bac-dien/${idToDelete}`, {
-                method: 'DELETE'
+      function closeDialog() {
+        // Hide dialog and overlay
+        document.getElementById("edit-dialog").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+      }
+      function deleteRecord(idToDelete) {
+        fetch(`http://localhost:8080/bacdien/api/bac-dien/${idToDelete}`, {
+          method: "DELETE",
+        })
+          .then((response) => {
+            if (response.ok) {
+              alert("Đã xóa bậc " + idToDelete);
+              location.reload(); // Reload page after successful delete
+            } else {
+              const fistId = idToDelete - 1;
+              const nextId = idToDelete + 1;
+              if (fistId != null && nextId != null) {
+                alert("Không thể xóa bậc này vì còn bị ràng buộc điều kiện");
+              }
+            }
+          })
+          .catch((error) => console.error("Error deleting record:", error));
+      }
+
+      // When submitting edit form
+      document
+        .getElementById("edit-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const id = document.getElementById("id").value;
+          const bac = document.getElementById("bac").value;
+          const batdau = document.getElementById("batdau").value;
+          const ketthuc = document.getElementById("ketthuc").value;
+          const gia = document.getElementById("gia").value;
+
+          console.log(ketthuc);
+          fetch(`http://localhost:8080/bacdien/api/bac-dien/${id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: id,
+              name: bac,
+              startValue: batdau,
+              endValue: ketthuc,
+              price: gia,
+            }),
+          })
+            .then((response) => {
+              if (response.ok) {
+                alert("Đã sửa lại");
+                location.reload(); // Reload page after successful update
+              } else {
+                alert("Lỗi sửa");
+              }
             })
+            .catch((error) => console.error("Error updating record:", error));
 
-                .then(response => {
-                    if (response.ok) {
-                        alert('Đã xóa bậc ' + idToDelete);
-                        location.reload(); // Reload page after successful delete
-                    } else {
-                        const fistId = idToDelete - 1;
-                        const nextId = idToDelete + 1;
-                        if (fistId != null && nextId != null) {
-                            alert('Không thể xóa bậc này vì còn bị ràng buộc điều kiện');
-
-                        }
-                    }
-                })
-                .catch(error => console.error('Error deleting record:', error));
-        }
-
-        // When submitting edit form
-        document.getElementById('edit-form').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const id = document.getElementById('id').value;
-            const bac = document.getElementById('bac').value;
-            const batdau = document.getElementById('batdau').value;
-            const ketthuc = document.getElementById('ketthuc').value;
-            const gia = document.getElementById('gia').value;
-
-            console.log(ketthuc);
-            fetch(`http://localhost:8081/bacdien/api/bac-dien/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: id, name: bac, startValue: batdau, endValue: ketthuc, price: gia })
-
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Đã sửa lại');
-                        location.reload(); // Reload page after successful update
-                    } else {
-                        alert('Lỗi sửa');
-                    }
-                })
-                .catch(error => console.error('Error updating record:', error));
-
-            closeDialog();
+          closeDialog();
         });
 
-        // Fetch data from API and populate table
-        fetch('http://localhost:8081/bacdien/api/bac-dien')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById('config-table-body');
-                data.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
+      // Fetch data from API and populate table
+      fetch("http://localhost:8080/bacdien/api/bac-dien")
+        .then((response) => response.json())
+        .then((data) => {
+          const tableBody = document.getElementById("config-table-body");
+          data.forEach((item) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
                         <td>${item.name}</td>
                         <td>${item.startValue}</td>
                         <td>${item.endValue}</td>
@@ -367,11 +389,10 @@
                         <td><button class="edit-button" onclick="openDialog(${item.id},'${item.name}', ${item.startValue}, ${item.endValue}, ${item.price})">Sửa</button></td>
                         <td><button class="delete-button" onclick="deleteRecord(${item.id})">Xóa</button></td>
                     `;
-                    tableBody.appendChild(row);
-                });
-            })
-            .catch(error => console.error('Error fetching data:', error));
+            tableBody.appendChild(row);
+          });
+        })
+        .catch((error) => console.error("Error fetching data:", error));
     </script>
-</body>
-
+  </body>
 </html>
