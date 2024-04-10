@@ -42,8 +42,8 @@ public class LuongDienTieuThuServiceImpl implements LuongDienTieuThuService {
 	}
 
 	@Override
-	public List<LuongDienTieuThuDTO> findLdttByThang(Long id) {
-		List<LuongDienTieuThu> ldtts = ldttRepo.findByThangId(id);
+	public List<LuongDienTieuThuDTO> findLdttByThangAndNamAndState(Long thangId, Long namId, String state) {
+		List<LuongDienTieuThu> ldtts = ldttRepo.findByThangNamIdAndThangIdAndState(namId, thangId, state);
 		List<LuongDienTieuThuDTO> ldttDTOs = new ArrayList<>();
 		for(LuongDienTieuThu l : ldtts){
 			LuongDienTieuThuDTO ldttDTO = new LuongDienTieuThuDTO();

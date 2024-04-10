@@ -2,6 +2,7 @@ package dbclpm.api;
 
 import java.util.List;
 
+import dbclpm.service.BacDienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,8 @@ public class BacDienAPI {
 	@Autowired
 	private BacDienRepo bacDienRepo;
 	@Autowired
+	private BacDienService bacDienService;
+	@Autowired
 	private EntityManager entityManager;
 //	private final BacDienRepo bacDienRepo;
 
@@ -44,6 +47,12 @@ public class BacDienAPI {
 		List<BacDien> dsBacDien = bacDienRepo.findAll();
 
 		return ResponseEntity.ok(dsBacDien);
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<?> getAllBacDien(){
+		List<BacDien> bacDiens = bacDienService.getAllBacDien();
+		return ResponseEntity.ok(bacDiens);
 	}
 
 	@Transactional

@@ -25,4 +25,6 @@ public interface LuongDienTieuThuRepo extends JpaRepository<LuongDienTieuThu, Lo
 
 	List<LuongDienTieuThu> findByThangId(Long id);
 
+	List<LuongDienTieuThu> findByThangNamIdAndThangIdAndState(Long namId, Long thangId,String state);
+
 }

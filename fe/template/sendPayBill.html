@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi thông báo đóng tiền điện hàng tháng</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="max-w-screen-xl w-full p-8 bg-white rounded shadow-lg">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Gửi thông báo đóng tiền điện hàng tháng</h1>
+
+        <div class="flex flex-wrap gap-3 mb-4">
+            <!-- Spinner cho năm -->
+            <div class="w-full md:w-1/4">
+                <label for="year" class="block text-sm font-medium text-gray-700">Năm:</label>
+                <select id="year" name="year" class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+                    <!-- Spinner sẽ được cập nhật bằng dữ liệu từ API -->
+                </select>
+            </div>
+
+            <!-- Spinner cho tháng -->
+            <div class="w-full md:w-1/4">
+                <label for="month" class="block text-sm font-medium text-gray-700">Tháng:</label>
+                <select id="month" name="month" class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+                    <!-- Spinner sẽ được cập nhật sau khi chọn năm -->
+                </select>
+            </div>
+
+            <!-- Spinner cho trạng thái -->
+            <div class="w-full md:w-1/4">
+                <label for="status" class="block text-sm font-medium text-gray-700">Trạng thái:</label>
+                <select id="status" name="status" class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+                    <option value="1">Đã thanh toán</option>
+                    <option value="0">Chưa thanh toán</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Bảng danh sách khách hàng sử dụng điện -->
+        <div class="overflow-x-auto">
+            <table class="w-full table-auto">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 border">Tên khách hàng</th>
+                        <th class="px-4 py-2 border">Email</th>
+                        <th class="px-4 py-2 border">Địa chỉ</th>
+                        <th class="px-4 py-2 border">Chỉ số cũ</th>
+                        <th class="px-4 py-2 border">Chỉ số mới</th>
+                        <th class="px-4 py-2 border">Tiêu thụ</th>
+                        <th class="px-4 py-2 border">Tiền điện (VNĐ)</th>
+                    </tr>
+                </thead>
+                <tbody id="customerTableBody">
+                    <!-- Các dòng sẽ được thêm vào đây bằng JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Nút Gửi thông báo -->
+        <button id="sendNotificationBtn" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300" disabled>Gửi thông báo</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function loadYears() {
+            $.get("http://localhost:8080/nam/all", function(data) {
+                var yearSelect = $('#year');
+                yearSelect.empty().append($('<option>', { value: '', text: 'Chọn năm' }));
+                data.forEach(function(year) {
+                    yearSelect.append($('<option>', { value: year.id, text: year.name }));
+                });
+            });
+        }
+
+        function loadMonths(yearId) {
+            var monthSelect = $('#month');
+            monthSelect.empty();
+            if (yearId) {
+                $.get(`http://localhost:8080/thang/all/${yearId}`, function(data) {
+                    monthSelect.append($('<option>', { value: '', text: 'Chọn tháng' }));
+                    data.forEach(function(month) {
+                        monthSelect.append($('<option>', { value: month.id, text: month.name }));
+                    });
+                });
+            }
+        }
+
+        function loadCustomers(yearId, monthId, status) {
+            $.get(`http://localhost:8080/api/notice/pay_bill/?thangId=${monthId}&namId=${yearId}&state=${status}`, function(data) {
+                var customerTableBody = $('#customerTableBody');
+                customerTableBody.empty();
+                data.forEach(function(customer) {
+                    var row = '<tr>' +
+                        `<td class="px-4 py-2 border">${customer.customerName}</td>` +
+                        `<td class="px-4 py-2 border">${customer.email}</td>` +
+                        `<td class="px-4 py-2 border">${customer.address}</td>` +
+                        `<td class="px-4 py-2 border hidden">${customer.month}</td>` +
+                        `<td class="px-4 py-2 border hidden">${customer.year}</td>` +
+                        `<td class="px-4 py-2 border">${customer.csc}</td>` +
+                        `<td class="px-4 py-2 border">${customer.csm}</td>` +
+                        `<td class="px-4 py-2 border">${customer.cstt}</td>` +
+                        `<td class="px-4 py-2 border">${customer.tienDien}</td>` +
+                        '</tr>';
+                    customerTableBody.append(row);
+                });
+            });
+        }
+
+        loadYears();
+
+        $('#year').change(function() {
+            var selectedYearId = $(this).val();
+            if (selectedYearId) {
+                loadMonths(selectedYearId);
+            }
+        });
+
+        $('#month, #status').change(function() {
+            var yearId = $('#year').val();
+            var monthId = $('#month').val();
+            var status = $('#status').val();
+
+            if (yearId && monthId) {
+                loadCustomers(yearId, monthId, status);
+                if (status === '1') {
+                    $('#sendNotificationBtn').prop('disabled', true); // Vô hiệu hóa nút
+                    $('#sendNotificationBtn').addClass('bg-gray-400 text-gray-500 opacity-50 cursor-not-allowed');
+                } else {
+                    $('#sendNotificationBtn').prop('disabled', false); // Kích hoạt lại nút
+                    $('#sendNotificationBtn').removeClass('bg-gray-400 text-gray-500 opacity-50 cursor-not-allowed');
+                }
+            }
+        });
+
+        $('#sendNotificationBtn').click(function() {
+            var yearId = $('#year').val();
+            var monthId = $('#month').val();
+            var status = $('#status').val();
+
+            // Tạo một mảng chứa thông tin của các khách hàng
+            var customers = [];
+            $('#customerTableBody tr').each(function(index, row) {
+                var customer = {
+                    customerName: $(row).find('td:nth-child(1)').text(),
+                    email: $(row).find('td:nth-child(2)').text(),
+                    address: $(row).find('td:nth-child(3)').text(),
+                    month: $(row).find('td:nth-child(4)').text(),
+                    year: $(row).find('td:nth-child(5)').text(),
+                    csc: $(row).find('td:nth-child(6)').text(),
+                    csm: $(row).find('td:nth-child(7)').text(),
+                    cstt: $(row).find('td:nth-child(8)').text(),
+                    tienDien: $(row).find('td:nth-child(9)').text()
+                };
+                customers.push(customer);
+            });
+
+            // Gửi request POST tới API
+            $.ajax({
+                url: 'http://localhost:8080/api/notice/pay_bill/send',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(customers),
+                success: function(response) {
+                    alert("Đã gửi thông báo thành công!");
+                },
+                error: function(xhr, status, error) {
+                    alert("Gửi thông báo thất bại!");
+                    console.error(error);
+                }
+            });
+        });
+
+    });
+</script>
+
+</body>
+
+</html>

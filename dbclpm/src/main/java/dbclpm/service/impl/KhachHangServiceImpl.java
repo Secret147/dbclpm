@@ -52,9 +52,9 @@ public class KhachHangServiceImpl implements KhachHangService{
 
 	@Override
 	public List<KhachHang> findByXaOrHuyenOrTinh(Map<String, Object> params) {
-		Object xaId = params.get("xaId");
-		Object huyenId = params.get("huyenId");
-		Object tinhId = params.get("tinhId");
+		Object xaId = params.get("communeId");
+		Object huyenId = params.get("districtId");
+		Object tinhId = params.get("provinceId");
 
 		if(objectUtil.checkObject(xaId)){
 			List<KhachHang> khachHangs = khachHangRepo.findByXaId(Long.valueOf(xaId.toString()));

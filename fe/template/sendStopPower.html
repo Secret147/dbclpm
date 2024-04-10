@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo ngừng cấp điện tạm thời</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+
+<div class="max-w-4xl mx-auto bg-white rounded p-6 shadow-lg">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Thông báo ngừng cấp điện tạm thời</h1>
+
+    <!-- Spinner cho Tỉnh, Huyện, Xã -->
+    <div class="flex mb-4 space-x-4">
+        <div class="flex-1">
+            <label for="province" class="block text-sm font-medium text-gray-700">Tỉnh:</label>
+            <select id="province" name="province" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+                <!-- Spinner sẽ được cập nhật bằng dữ liệu từ API -->
+            </select>
+        </div>
+        <div class="flex-1">
+            <label for="district" class="block text-sm font-medium text-gray-700">Huyện:</label>
+            <select id="district" name="district" class="mt-1 p-2 border border-gray-300 rounded-md w-full" disabled>
+                <!-- Spinner sẽ được cập nhật sau khi chọn Tỉnh -->
+            </select>
+        </div>
+        <div class="flex-1">
+            <label for="commune" class="block text-sm font-medium text-gray-700">Xã:</label>
+            <select id="commune" name="commune" class="mt-1 p-2 border border-gray-300 rounded-md w-full" disabled>
+                <!-- Spinner sẽ được cập nhật sau khi chọn Huyện -->
+            </select>
+        </div>
+    </div>
+
+    <!-- Ngày bắt đầu, Giờ bắt đầu -->
+    <div class="flex mb-4 space-x-4">
+        <div class="flex-1">
+            <label for="startDate" class="block text-sm font-medium text-gray-700">Ngày bắt đầu:</label>
+            <input type="date" id="startDate" name="startDate" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+        <div class="flex-1">
+            <label for="startTime" class="block text-sm font-medium text-gray-700">Giờ bắt đầu:</label>
+            <input type="time" id="startTime" name="startTime" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+    </div>
+
+    <!-- Ngày kết thúc, Giờ kết thúc -->
+    <div class="flex mb-4 space-x-4">
+        <div class="flex-1">
+            <label for="endDate" class="block text-sm font-medium text-gray-700">Ngày kết thúc:</label>
+            <input type="date" id="endDate" name="endDate" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+        <div class="flex-1">
+            <label for="endTime" class="block text-sm font-medium text-gray-700">Giờ kết thúc:</label>
+            <input type="time" id="endTime" name="endTime" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+        </div>
+    </div>
+
+    <!-- Lý do -->
+    <div class="mb-4">
+        <label for="reason" class="block text-sm font-medium text-gray-700">Lý do:</label>
+        <textarea id="reason" name="reason" class="mt-1 p-2 border border-gray-300 rounded-md w-full" rows="3"></textarea>
+    </div>
+
+    <!-- Nút Gửi thông báo -->
+    <button id="sendNotificationBtn" onclick="sendStopPowerNotification()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">Gửi thông báo</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Hàm kiểm tra ngày và giờ kết thúc phải lớn hơn ngày và giờ bắt đầu
+        function isValidDateTime(startDate, startTime, endDate, endTime) {
+            var startDateTime = new Date(startDate + 'T' + startTime);
+            var endDateTime = new Date(endDate + 'T' + endTime);
+
+            return endDateTime > startDateTime;
+        }
+
+        $('#sendNotificationBtn').click(function() {
+            var provinceId = $('#province').val();
+            var districtId = $('#district').val();
+            var communeId = $('#commune').val();
+            var startDate = $('#startDate').val();
+            var startTime = $('#startTime').val();
+            var endDate = $('#endDate').val();
+            var endTime = $('#endTime').val();
+            var reason = $('#reason').val();
+
+            // Kiểm tra các trường bắt buộc
+            if (!provinceId || !startDate || !startTime || !endDate || !endTime || !reason) {
+                alert("Vui lòng điền đầy đủ thông tin.");
+                return;
+            }
+
+            // Kiểm tra ngày và giờ kết thúc phải lớn hơn ngày và giờ bắt đầu
+            if (!isValidDateTime(startDate, startTime, endDate, endTime)) {
+                alert("Ngày hoặc giờ kết thúc phải lớn hơn ngày hoặc giờ bắt đầu.");
+                return;
+            }
+
+            // Gửi request POST tới API
+            $.post("http://localhost:8080/api/notice/stop_power/send", {
+                provinceId: provinceId,
+                districtId: districtId,
+                communeId: communeId,
+                startDate: startDate,
+                startTime: startTime,
+                endDate: endDate,
+                endTime: endTime,
+                reason: reason
+            })
+            .done(function(response) {
+                alert("Đã gửi thông báo ngừng cấp điện tạm thời thành công!");
+            })
+            .fail(function(error) {
+                alert("Gửi thông báo ngừng cấp điện tạm thời thất bại!");
+                console.error(error);
+            });
+        });
+
+        // Load danh sách tỉnh ban đầu
+        function loadProvinces() {
+            var provinceSelect = $('#province');
+            provinceSelect.empty(); // Xóa tất cả các option hiện tại
+            $.get("http://localhost:8080/api/tinh", function(data) {
+                provinceSelect.append($('<option>', { value: '', text: 'Chọn tỉnh' }));
+                data.forEach(function(province) {
+                    provinceSelect.append($('<option>', { value: province.id, text: province.name }));
+                });
+            });
+        }
+
+        // Load danh sách huyện khi chọn tỉnh
+        function loadDistricts(provinceId) {
+            var districtSelect = $('#district');
+            districtSelect.empty(); // Xóa tất cả các option hiện tại
+            if (provinceId) {
+                $.get(`http://localhost:8080/api/tinh/${provinceId}/huyen`, function(data) {
+                    districtSelect.prop('disabled', false); // Kích hoạt dropdown Huyện
+                    districtSelect.append($('<option>', { value: '', text: 'Chọn huyện' }));
+                    data.forEach(function(district) {
+                        districtSelect.append($('<option>', { value: district.id, text: district.name }));
+                    });
+                });
+            } else {
+                districtSelect.prop('disabled', true); // Vô hiệu hóa dropdown Huyện
+            }
+        }
+
+        // Load danh sách xã khi chọn huyện
+        function loadCommunes(districtId) {
+            var communeSelect = $('#commune');
+            communeSelect.empty(); // Xóa tất cả các option hiện tại
+            if (districtId) {
+                $.get(`http://localhost:8080/api/huyen/${districtId}/xa`, function(data) {
+                    communeSelect.prop('disabled', false); // Kích hoạt dropdown Xã
+                    communeSelect.append($('<option>', { value: '', text: 'Chọn xã' }));
+                    data.forEach(function(commune) {
+                        communeSelect.append($('<option>', { value: commune.id, text: commune.name }));
+                    });
+                });
+            } else {
+                communeSelect.prop('disabled', true); // Vô hiệu hóa dropdown Xã
+            }
+        }
+
+        // Sự kiện khi chọn tỉnh
+        $('#province').change(function() {
+            var selectedProvinceId = $(this).val();
+            loadDistricts(selectedProvinceId);
+        });
+
+        // Sự kiện khi chọn huyện
+        $('#district').change(function() {
+            var selectedDistrictId = $(this).val();
+            loadCommunes(selectedDistrictId);
+        });
+
+        // Load danh sách tỉnh ban đầu
+        loadProvinces();
+
+    });
+</script>
+
+
+
+</body>
+</html>

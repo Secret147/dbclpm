@@ -19,7 +19,7 @@ public class BacDienUtilImpl implements BacDienUtil{
             textContent.append(tier.getStartValue()).append("\t\t");
 
             // Xử lý giá trị "Đến (kWh)"
-            String endValue = (tier.getEndValue() == null || tier.getEndValue() == 1000) ? "Trở lên" : String.valueOf(tier.getEndValue());
+            String endValue = (tier.getEndValue() == 1000) ? "Trở lên" : String.valueOf(tier.getEndValue());
             textContent.append(endValue).append("\t\t");
 
             textContent.append(tier.getPrice()).append("\n");
