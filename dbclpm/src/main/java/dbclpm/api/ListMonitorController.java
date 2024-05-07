@@ -62,35 +62,16 @@ public class ListMonitorController {
 
 		List<ThongKeDTO> dsThongKe = new ArrayList<>();
 
-		if (currentTime.getMonthValue() > Integer.valueOf(thang.getName())
-				&& currentTime.getYear() >= Integer.valueOf(nam.getName())) {
+		if (currentTime.getMonthValue() > Integer.parseInt(thang.getName())
+				&& currentTime.getYear() >= Integer.parseInt(nam.getName())) {
 			// Lấy danh sách thống kê trong quá khứ => Đã có hóa đơn
-			List<HoaDon> dsHoaDon = null;
-			if (xaId != 0) {
-				dsHoaDon = hoaDonRepo.findByKhachHangXaIdAndLuongDienTieuThuThangId(xaId, thangId);
-			} else {
-				if (huyenId != 0) {
-					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenIdAndLuongDienTieuThuThangId(huyenId, thangId);
-				} else {
-					dsHoaDon = hoaDonRepo.findByKhachHangXaHuyenTinhIdAndLuongDienTieuThuThangId(tinhId, thangId);
-				}
-			}
+			List<HoaDon> dsHoaDon = dsHoaDon = hoaDonRepo.findByKhachHangXaIdAndLuongDienTieuThuThangId(xaId, thangId);
 			for (HoaDon hoaDon : dsHoaDon) {
 				dsThongKe.add(new ThongKeDTO(hoaDon.getLuongDienTieuThu(), hoaDon, 0));
 			}
 		} else {
-			// Lấy danh sách thống kê trong tháng này => Chưa có hóa đơn => Tính lại tiền
-			// điện
-			List<LuongDienTieuThu> dsLuongDienTieuThu = null;
-			if (xaId != -1) {
-				dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaIdAndThangId(xaId, thangId);
-			} else {
-				if (huyenId != -1) {
-					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenIdAndThangId(huyenId, thangId);
-				} else {
-					dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaHuyenTinhIdAndThangId(tinhId, thangId);
-				}
-			}
+			// Lấy danh sách thống kê trong tháng này => Chưa có hóa đơn => Tính lại tiền điện
+			List<LuongDienTieuThu> dsLuongDienTieuThu = luongDienTieuThuRepo.findByKhachHangXaIdAndThangId(xaId, thangId);
 			for (LuongDienTieuThu luongDienTieuThu : dsLuongDienTieuThu) {
 				dsThongKe.add(new ThongKeDTO(luongDienTieuThu, null,
 						tienDienUltility.tinhTienDien(luongDienTieuThu.getCsc(), luongDienTieuThu.getCsm())));

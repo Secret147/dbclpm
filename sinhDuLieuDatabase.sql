@@ -162,7 +162,7 @@ INSERT INTO nam (name, description) VALUES
 INSERT INTO thang (name, description, nam_id) VALUES
   ('1', 'January', 1),
   ('2', 'February', 1),
-  ('3', 'Marctinhh', 1),
+  ('3', 'March', 1),
   ('4', 'April', 1),
   ('5', 'May', 1),
   ('6', 'June', 1),
