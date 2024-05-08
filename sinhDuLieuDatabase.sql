@@ -319,3 +319,13 @@ VALUES
   (NOW(), 92400, 3, 7, NULL),
   (NOW(), 332000, 3, 8, NULL),
   (NOW(), 1187230, 3, 9, NULL);
+
+UPDATE `dbclpm`.`hoa_don` SET `nhan_vien_id` = '1' WHERE (`id` = '1');
+UPDATE `dbclpm`.`hoa_don` SET `nhan_vien_id` = '2' WHERE (`id` = '2');
+UPDATE `dbclpm`.`hoa_don` SET `nhan_vien_id` = '3' WHERE (`id` = '3');
+UPDATE `dbclpm`.`hoa_don` SET `nhan_vien_id` = '4' WHERE (`id` = '4');
+UPDATE `dbclpm`.`hoa_don` SET `nhan_vien_id` = '5' WHERE (`id` = '5');
+UPDATE `dbclpm`.`hoa_don` SET `nhan_vien_id` = '6' WHERE (`id` = '6');
+UPDATE `dbclpm`.`hoa_don` SET `nhan_vien_id` = '7' WHERE (`id` = '7');
+UPDATE `dbclpm`.`hoa_don` SET `nhan_vien_id` = '1' WHERE (`id` = '8');
+UPDATE `dbclpm`.`hoa_don` SET `nhan_vien_id` = '2' WHERE (`id` = '9');
