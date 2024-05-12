@@ -50,48 +50,6 @@ public class ExcelController {
 	@Autowired
 	private HoaDonService billSe;
 
-    @GetMapping("/thang/export-excel")
-    public ResponseEntity<byte[]> exportExcel() throws IOException {
-       
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Data");
-
-        List<Thang> thangs = namSe.getListThangByNam(1L);
-        Row row0 = sheet.createRow(0);
-        Cell cellRow0 = row0.createCell(0);
-        cellRow0.setCellValue("id");
-        
-        Cell cellRow1 = row0.createCell(1);
-        cellRow1.setCellValue("description");
-        
-        Cell cellRow2 = row0.createCell(2);
-        cellRow2.setCellValue("name");
-        
-        int rowIndex = 1;
-        for(Thang x : thangs) {
-        	Row row = sheet.createRow(rowIndex++);
-        	Cell cell = row.createCell(0);
-    		cell.setCellValue(x.getName());
-    		
-    		Cell cell1 = row.createCell(1);
-    		cell1.setCellValue(x.getDescription());
-    		
-    		Cell cell2 = row.createCell(2);
-    		cell2.setCellValue(x.getId());   	
-        }
-
-        // Ghi workbook vào ByteArrayOutputStream
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        workbook.write(outputStream);
-        workbook.close();
-
-        // Tạo HttpHeaders
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
-        headers.setContentDispositionFormData("attachment", "data.xlsx");
-        return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
-    }
-    
     @GetMapping("ldtt/export/{id}")
      public ResponseEntity<byte[]> exportLdttExcel(@PathVariable Long id) throws IOException {
         
@@ -132,7 +90,7 @@ public class ExcelController {
 
     		
     		Cell cell5 = row.createCell(5);
-    		cell5.setCellValue(x.getState() == "0" ? "Chua thanh toan" : " Da thanh toan");
+    		cell5.setCellValue(x.getState().equals("0") ? "Chưa thanh toán" : " Đã thanh toán");
         }
         Row rowSum = sheet.createRow(rowIndex+1);
         Cell cellSum = rowSum.createCell(9);
@@ -204,7 +162,7 @@ public class ExcelController {
     }
     
     @GetMapping("/payment/export")
-    public ResponseEntity<?> exportKhachHangStateExcel() throws IOException {
+    public ResponseEntity<?> exportKhChuaThanhToanhExcel() throws IOException {
        
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Data");
@@ -261,7 +219,7 @@ public class ExcelController {
     }
     
     @GetMapping("/user/export/{id}")
-    public ResponseEntity<?> exportKhachHangInfor(@PathVariable Long id) throws IOException {
+    public ResponseEntity<?> exportThongtinKhachHang(@PathVariable Long id) throws IOException {
        
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Data");
@@ -315,7 +273,7 @@ public class ExcelController {
     
     
     @GetMapping("/total")
-    public ResponseEntity<?> exportSoDien() throws IOException {
+    public ResponseEntity<?> exportDoanhThu() throws IOException {
        
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Data");
