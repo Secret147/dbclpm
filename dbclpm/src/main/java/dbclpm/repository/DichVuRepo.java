@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import dbclpm.entity.BacDien;
-import dbclpm.entity.NhanVien;
+import dbclpm.entity.DichVu;
 
-public interface NhanVienRepo extends JpaRepository<NhanVien, Long>{
-	List<NhanVien> findAll();
+public interface DichVuRepo extends JpaRepository<DichVu, Long>{
+	 List<DichVu> findAll();
 }

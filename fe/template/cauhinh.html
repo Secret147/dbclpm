@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cấu hình</title>
+    <title>Nhận thanh toán</title>
     <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 <style>
@@ -146,29 +146,58 @@
 
 <body>
     <div class="container">
-        <h1>Cấu hình bậc</h1>
-        <button onclick="openAddDialog()" class="add-button" , style="margin-bottom: 20px;">Thêm Bậc Mới</button>
+        <!-- <h1>Nhận Thanh toán</h1>
+        <h2>Nhập mã khách hàng</h2>
+        <input type="text" id="new-bac"  style="margin-bottom: 20px;"name="new-bac" required> -->
         <table id="config-table">
             <thead>
                 <tr>
-                    <th>Số Bậc</th>
-                    <th>Bắt Đầu</th>
-                    <th>Kết Thúc</th>
-                    <th>Giá Tiền</th>
-                    <th>Sửa</th>
-                    <th>Xóa</th>
+                    <th>TT</th>
+                    <th>ngày làm việc</th>
+                    <th>số giờ</th>
+                   
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>10/04/2023</th>
+                    <th>8</th>
+                  
+                </tr>
+                <tr>
+                    <th>2</th>
+                    <th>11/04/2023</th>
+                    <th>8</th>
+                  
+                </tr>   <tr>
+                    <th>3</th>
+                    <th>12/04/2023</th>
+                    <th>8</th>
+                  
+                </tr>   <tr>
+                    <th>4</th>
+                    <th>15/04/2023</th>
+                    <th>8</th>
+                  
+                </tr>   <tr>
+                    <th>5</th>
+                    <th>16/04/2023</th>
+                    <th>8</th>
+                  
                 </tr>
             </thead>
             <tbody id="config-table-body">
                 <!-- Dữ liệu từ API sẽ được thêm vào đây -->
             </tbody>
         </table>
+        <button onclick="openAddDialog()" class="add-button" , style="margin-top: 20px; text-align: end;">close</button>
+
     </div>
     <!-- Dialog cho việc thêm bậc mới -->
     <div class="overlay" id="overlay"></div>
     <div class="dialog" id="add-dialog">
-        <h2>Thêm Bậc Mới</h2>
-        <form id="add-form">
+        <h2>Nhập mã khách hàng</h2>
+        <input type="text" id="new-bac" name="new-bac" required>
+        <!-- <form id="add-form">
             <div>
                 <label for="new-bac">Bậc:</label>
                 <input type="text" id="new-bac" name="new-bac" required>
@@ -187,7 +216,7 @@
             </div>
             <button type="submit">Thêm</button>
             <button type="button" onclick="closeAddDialog()">Hủy</button>
-        </form>
+        </form> -->
     </div>
     <!-- Dialog for editing record -->
     <div class="overlay" id="overlay"></div>

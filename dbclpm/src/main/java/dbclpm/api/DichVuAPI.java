@@ -9,25 +9,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dbclpm.entity.KhachHang;
-import dbclpm.entity.NhanVien;
-import dbclpm.repository.KhachHangRepo;
-import dbclpm.repository.NhanVienRepo;
+import dbclpm.entity.BacDien;
+import dbclpm.entity.DichVu;
+import dbclpm.repository.BacDienRepo;
+import dbclpm.repository.DichVuRepo;
 import jakarta.persistence.EntityManager;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/nhan-vien")
-public class NhanVienAPI {
+@RequestMapping("/dich-vu")
+public class DichVuAPI {
 	@Autowired
-	private NhanVienRepo nhanVienRepo;
+	private DichVuRepo dichVurepo;
 	@Autowired
 	private EntityManager entityManager;
 
-	@GetMapping("/api/nhan-vien")
-	public ResponseEntity<List<NhanVien>> getDsNhanVien() {
-		List<NhanVien> ds = nhanVienRepo.findAll();
+	
+	@GetMapping("/api/dich-vu")
+	public ResponseEntity<List<DichVu>> getDSDichVu() {
+		List<DichVu> ds = dichVurepo.findAll();
 
 		return ResponseEntity.ok(ds);
 	}
+
 }

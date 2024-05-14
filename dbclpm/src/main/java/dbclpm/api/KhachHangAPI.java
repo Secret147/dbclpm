@@ -1,50 +1,38 @@
 package dbclpm.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dbclpm.entity.BacDien;
+import dbclpm.entity.KhachHang;
+import dbclpm.repository.BacDienRepo;
 import dbclpm.repository.KhachHangRepo;
-import dbclpm.repository.LuongDienTieuThuRepo;
-import dbclpm.service.KhachHangService;
+import jakarta.persistence.EntityManager;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/khachhang")
 public class KhachHangAPI {
-	
 	@Autowired
-	private KhachHangService khachHangSe;
-	
+	private KhachHangRepo khachhangRepo;
 	@Autowired
-	private KhachHangRepo khachHangRepo;
-	
-	@Autowired
-	private LuongDienTieuThuRepo ldttRe;
-	
-	
+	private EntityManager entityManager;
+//	private final BacDienRepo bacDienRepo;
 
-	public KhachHangAPI() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	@GetMapping("/user")
-	public ResponseEntity<?> getkh(){
-		return ResponseEntity.ok(khachHangRepo.findAll());
-	}
-	
-	@GetMapping("/user/payment")
-	public ResponseEntity<?> getUserPayment(){
-		return ResponseEntity.ok(khachHangSe.getListKhPayment());
-	}
-	
-	@GetMapping("/detail/{id}")
-	public ResponseEntity<?> getUserDetail(@PathVariable Long id){
-		return ResponseEntity.ok(ldttRe.findByKhachHangId(id));
+//	public BacDienAPI(BacDienRepo bacDienRepo) {
+//		this.bacDienRepo = bacDienRepo;
+//	}
+	@GetMapping("/api/khach-hang")
+	public ResponseEntity<List<KhachHang>> getDSKhachHang() {
+		List<KhachHang> dsKH = khachhangRepo.findAll();
+
+		return ResponseEntity.ok(dsKH);
 	}
 
 }

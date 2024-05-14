@@ -10,5 +10,6 @@ import java.util.List;
 public interface BacDienRepo extends JpaRepository<BacDien, Long>{
 	BacDien findTop1ByEndValueLessThanOrderByEndValueDesc(double endValue);
   BacDien findTop1ByStartValueGreaterThanOrderByStartValueAsc(double startValue);
-  List<BacDien> findAll();
+
+	List<BacDien> findAll();
 }

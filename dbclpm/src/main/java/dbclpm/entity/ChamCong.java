@@ -1,28 +1,31 @@
 package dbclpm.entity;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 @Data
 @Entity
-public class BacDien {
+public class ChamCong {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private long id;
 
-	private Long price;
+ 
+    private Date date;
 
-	private String name;
 
-	private Integer startValue;
+    private String hoursWork;
 
-	private Integer endValue;
 
-	private String description;
+    
+    @ManyToOne
+    private NhanVien nhanvien;
 
-	
 }

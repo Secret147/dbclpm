@@ -1,5 +1,6 @@
 package dbclpm.entity;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,30 +10,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
-/**
- * 
- */
 @Data
 @Entity
-public class NhanVien {
+public class PhieuThanhToan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private String name;
+	private Date date;
+	private int totalMount;
 	
-	private String phone;
-	
-	private String email;
-	
-	private String address;
-	
-	@OneToMany(mappedBy = "nhanvien")
+	@OneToMany(mappedBy = "ptt")
 	@JsonIgnore
-	List<ChamCong> chamcongs = new ArrayList<>();
-
+	List<DichVuPhieuThanhToan> dichvuptts = new ArrayList<>();
+	
+	@ManyToOne
+	private KhachHang khachhang;
 	
 }
+

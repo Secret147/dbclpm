@@ -11,28 +11,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
-
-/**
- * 
- */
 @Data
 @Entity
-public class NhanVien {
+public class DichVu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	    private long id;
 
-	private String name;
-	
-	private String phone;
-	
-	private String email;
-	
-	private String address;
-	
-	@OneToMany(mappedBy = "nhanvien")
-	@JsonIgnore
-	List<ChamCong> chamcongs = new ArrayList<>();
 
-	
+	    private String name;
+
+	 
+	    private String address;
+
+	  
+	    private String price;
+	    
+	    @OneToMany(mappedBy = "dichvu")
+		@JsonIgnore
+		List<DichVuPhieuThanhToan> dichvuptts = new ArrayList<>();
 }
