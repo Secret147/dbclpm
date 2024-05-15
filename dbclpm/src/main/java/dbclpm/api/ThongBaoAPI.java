@@ -35,8 +35,8 @@ public class ThongBaoAPI {
     private BacDienUtil bacDienUtil;
 
     @GetMapping("/pay_bill/")
-    public ResponseEntity<?> getListCustomerAndLdtt(@RequestParam Long thangId, @RequestParam Long namId, @RequestParam String state){
-        List<LuongDienTieuThuDTO> luongDienTieuThuDTOS = luongDienTieuThuService.findLdttByThangAndNamAndState(thangId, namId, state);
+    public ResponseEntity<?> getListCustomerAndLdtt(@RequestParam Long thangId, @RequestParam String state){
+        List<LuongDienTieuThuDTO> luongDienTieuThuDTOS = luongDienTieuThuService.findLdttByThangAndState(thangId, state);
         return ResponseEntity.ok(luongDienTieuThuDTOS);
     }
     @PostMapping("/pay_bill/send")

@@ -1,17 +1,16 @@
 package dbclpm;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.List;
 
+import dbclpm.entity.*;
+import dbclpm.repository.KhachHangRepo;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import dbclpm.entity.HoaDon;
-import dbclpm.entity.KhachHang;
-import dbclpm.entity.LuongDienTieuThu;
 import dbclpm.service.KhachHangService;
 
 @SpringBootTest
@@ -19,6 +18,9 @@ import dbclpm.service.KhachHangService;
 public class KhachHangServiceTest {
 	@Autowired
 	private KhachHangService khachhangSe;
+
+	@Mock
+	private KhachHangRepo khachHangRepo;
 
 	@Test
     public void testGetKhPayment() throws Exception {
@@ -28,9 +30,6 @@ public class KhachHangServiceTest {
 		for(LuongDienTieuThu x : ldtts) {
 			assertEquals(x.getState(), "0");
 		}
-	
-    
-
 	}
 	
 	@Test
@@ -42,6 +41,6 @@ public class KhachHangServiceTest {
     
 
 	}
-	
+
 
 }

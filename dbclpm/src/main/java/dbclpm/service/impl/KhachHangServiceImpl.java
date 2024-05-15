@@ -42,21 +42,14 @@ public class KhachHangServiceImpl implements KhachHangService {
 
 	@Override
 	public List<KhachHang> findByXaOrHuyenOrTinh(Map<String, Object> params) {
-		Object xaId = params.get("communeId");
-		Object huyenId = params.get("districtId");
-		Object tinhId = params.get("provinceId");
+		Object xaId = params.get("xaId");
+		Object huyenId = params.get("huyenId");
+		Object tinhId = params.get("tinhId");
 
 		if (objectUtil.checkObject(xaId)) {
 			List<KhachHang> khachHangs = khachHangRepo.findByXaId(Long.valueOf(xaId.toString()));
 			return khachHangs;
 		} else if (objectUtil.checkObject(huyenId)) {
-//			List<KhachHang> result = new ArrayList<>();
-//			List<Xa> xas = xaRepo.findByHuyenId((Long) huyenId);
-//			for(Xa xa : xas){
-//				List<KhachHang> khs = khachHangRepo.findKhachHangsByXaId(xa.getId());
-//				result.addAll(khs);
-//			}
-//			return result;
 			List<KhachHang> khachHangs = khachHangRepo.findByHuyenId(Long.valueOf(huyenId.toString()));
 			return khachHangs;
 		} else if (objectUtil.checkObject(tinhId)) {

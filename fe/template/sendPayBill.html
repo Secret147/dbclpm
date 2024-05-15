@@ -92,8 +92,8 @@
             }
         }
 
-        function loadCustomers(yearId, monthId, status) {
-            $.get(`http://localhost:8080/api/notice/pay_bill/?thangId=${monthId}&namId=${yearId}&state=${status}`, function(data) {
+        function loadCustomers(monthId, status) {
+            $.get(`http://localhost:8080/api/notice/pay_bill/?thangId=${monthId}&state=${status}`, function(data) {
                 var customerTableBody = $('#customerTableBody');
                 customerTableBody.empty();
                 data.forEach(function(customer) {
@@ -127,8 +127,8 @@
             var monthId = $('#month').val();
             var status = $('#status').val();
 
-            if (yearId && monthId) {
-                loadCustomers(yearId, monthId, status);
+            if (monthId) {
+                loadCustomers(monthId, status);
                 if (status === '1') {
                     $('#sendNotificationBtn').prop('disabled', true); // Vô hiệu hóa nút
                     $('#sendNotificationBtn').addClass('bg-gray-400 text-gray-500 opacity-50 cursor-not-allowed');

@@ -10,6 +10,6 @@ public interface LuongDienTieuThuService {
 	
 	List<LuongDienTieuThu> getLdttByThang(Long id);
 
-	List<LuongDienTieuThuDTO> findLdttByThangAndNamAndState(Long thangId, Long namId, String state);
+	List<LuongDienTieuThuDTO> findLdttByThangAndState(Long thangId, String state);
 
 }
